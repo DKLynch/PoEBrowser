@@ -4,7 +4,9 @@ PoEBrowser is currently hosted at: https://poebrowser.azurewebsites.net/
 
 # Current Functionality
 Currently, all item bases in the game are browsable, dedicated page displays with item info are still a work in progress.
+
 Skill Gems are browsable and filterable by type, and dedicated pages currently show their description, base stats and level related stats.
+
 Currency and Essence items are currently displayed, but their details are not yet displayed.
 
 # Technical Stuff
