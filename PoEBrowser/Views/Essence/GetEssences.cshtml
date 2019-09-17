@@ -1,0 +1,78 @@
+﻿@model List<PoEBrowser.Models.Essence>
+
+@{
+    ViewData["Title"] = "GetEssences";
+}
+
+@{
+    int totalItems = Model.Count();
+}
+
+<div class="container">
+
+    <div class="row">
+        <div style="text-align: center; font-size: x-small; width: 100%"><i>Displaying @totalItems Items</i></div>
+    </div>
+
+    @{
+        var prevItemType = "";
+
+        <div class="container">
+            @{
+                var itemCount = 0;
+                var rowClosed = false;
+
+                for (int i = 0; i < Model.Count(); i++)
+                {
+                    if (prevItemType != Model[i].Type)
+                    {
+                        if (!rowClosed)
+                        {
+                        @:</div>
+                        rowClosed = true;
+                    }
+
+                    if (i > 0)
+                    {
+                        <br />
+                    }
+
+                    <div class="row" style="width: 100%">
+                        <div class="col-md">
+                            <h5><b>@Model[i].Type</b></h5>
+                        </div>
+                    </div>
+
+                    itemCount = 0;
+                }
+
+                if (itemCount == 0)
+                {
+                    @:<div class='row'>
+                        rowClosed = false;
+                    }
+
+                    <div class="col-lg-3">
+                        <img style="max-height: 25px; width: auto" src=@Model[i].ImgSrcString>
+                        <a href="#" style="font-size: small">@Model[i].Name</a>
+                    </div>
+
+                    if (itemCount == 3)
+                    {
+                        itemCount = 0;
+                        rowClosed = true;
+                    @:</div>
+                }
+                else
+                {
+                    itemCount++;
+                }
+
+                prevItemType = Model[i].Type;
+            }
+
+            }
+
+        </div>
+    }
+    </div>

@@ -1,0 +1,160 @@
+﻿@model PoEBrowser.Models.SkillGem
+
+@{
+    ViewData["Title"] = "GetSkillGem";
+}
+
+@{
+    string skillIconSrc = "https://web.poecdn.com/image/Art/2DArt/SkillIcons/" + Model.BaseItem.DisplayName.Replace(" ", "") + ".png";
+}
+
+<div class="container">
+    <div class="d-flex flex-row justify-content-start align-items-center">
+        <img style="width: 60px; height: 60px;" src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
+        <div class="d-flex justify-content-start align-items-end px-sm-2">
+            <h3>@Model.BaseItem.DisplayName</h3>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-start align-items-end">
+        @if (Model.ActiveSkill != null)
+        {
+            @Model.ActiveSkill.Description
+        }
+    </div>
+</div>
+
+<br />
+
+@{
+    List<int> nonNullStatIndexes = new List<int>();
+
+    int numStats = 0;
+    if (Model.Static.Stats != null)
+    {
+        numStats = Model.Static.Stats.Count();
+    }
+    else
+    {
+        numStats = Model.PerLevel["1"].Stats.Distinct().Count();
+    }
+
+    List<string> statReqs = new List<string>();
+    if (Model.PerLevel["1"].StatRequirements != null)
+    {
+        statReqs = Model.PerLevel["1"].StatRequirements.Keys.ToList();
+    }
+
+    foreach (var level in Model.PerLevel)
+    {
+        if (level.Value.Stats != null)
+        {
+            for (int i = 0; i < level.Value.Stats.Count(); i++)
+            {
+                if (level.Value.Stats[i] != null)
+                {
+                    nonNullStatIndexes.Add(i);
+                }
+            }
+        }
+    }
+    nonNullStatIndexes = nonNullStatIndexes.Distinct().ToList();
+}
+
+<h5>Base Stats</h5>
+<div style="overflow-x:auto;">
+    <table cellpadding="5" cellspacing="5" class="table-responsive-sm table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                @for (int i = 0; i < numStats; i++)
+                {
+                    if (!nonNullStatIndexes.Contains(i))
+                    {
+                        <th class="" style="font-size: small">@Model.Static.Stats[i].GetValueOrDefault("id", "")</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @for (int i = 0; i < numStats; i++)
+                {
+                    if (!nonNullStatIndexes.Contains(i))
+                    {
+                        <th style="font-size: small">@Model.Static.Stats[i].GetValueOrDefault("value", "").ToString()</th>
+                    }
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br />
+
+<h5>Per Level Stats</h5>
+<div style="overflow-x:auto;">
+    <table cellpadding="5" cellspacing="5" class="table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th style="font-size: small">Level</th>
+                <th style="font-size: small">Level Req.</th>
+
+                @for (int i = 0; i < statReqs.Count(); i++)
+                {
+                    <th style="font-size: small">@statReqs[i] Req.</th>
+                }
+
+                <th style="font-size : small">Mana Cost</th>
+
+                @for (int i = 0; i < numStats; i++)
+                {
+                    if (nonNullStatIndexes.Contains(i))
+                    {
+                        if (Model.Static.Stats != null)
+                        {
+                            <th style="font-size: small;">@Model.Static.Stats[i].GetValueOrDefault("id", "")</th>
+                        }
+                        else
+                        {
+                            <th style="font-size: small;">@Model.PerLevel["1"].Stats[i].GetValueOrDefault("id", "")</th>
+                        }
+                    }
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var level in Model.PerLevel)
+            {
+                <tr>
+                    <td>@level.Key.ToString()</td>
+                    <td>@level.Value.RequiredLevel</td>
+                    @for (int i = 0; i < statReqs.Count(); i++)
+                    {
+                        <td>@level.Value.StatRequirements.Values.ToList()[i]</td>
+                    }
+                    <td>
+                        @if (level.Value.ManaCost == 0)
+                        {
+                            @Model.Static.ManaCost
+                        }
+                        else
+                        {
+                            @level.Value.ManaCost
+                        }
+                    </td>
+
+                    @if (level.Value.Stats != null)
+                    {
+                        for (int i = 0; i < level.Value.Stats.Count(); i++)
+                        {
+
+                            if (nonNullStatIndexes.Contains(i))
+                            {
+                                <td>@level.Value.Stats[i].GetValueOrDefault("value", "")</td>
+                            }
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using PoEBrowser.Models;
+using PoEBrowser.Services;
 
 namespace PoEBrowser
 {
@@ -31,6 +34,12 @@ namespace PoEBrowser
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //Fetch DB settings from appsettings.json
+            services.Configure<PoEDatabaseSettings>(Configuration.GetSection(nameof(PoEDatabaseSettings)));
+            services.AddSingleton<IPoEDatabaseSettings>(sp => sp.GetRequiredService<IOptions<PoEDatabaseSettings>>().Value);
+
+            //Create DBService Singleton
+            services.AddSingleton<DBContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -52,11 +61,33 @@ namespace PoEBrowser
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "BaseItems",
+                    template: "BaseItems");
+
+                routes.MapRoute(
+                    name: "Currency",
+                    template: "Currency");
+
+                routes.MapRoute(
+                    name: "Essences",
+                    template: "Essences");
+
+                routes.MapRoute(
+                    name: "ActiveSkillGems",
+                    template: "SkillGems/Active");
+
+                routes.MapRoute(
+                    name: "SupportSkillGems",
+                    template: "SkillGems/Support");       
             });
         }
     }
