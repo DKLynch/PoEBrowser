@@ -1,6 +1,62 @@
 ﻿@model PoEBrowser.Models.BaseItem
 @{
-    ViewData["Title"] = "GetBaseItem";
+    ViewData["Title"] = Model.ItemName;
 }
 
-<h3>@Model.ItemName</h3>
+<div class="container">
+    <div class="d-flex flex-row">
+        <div class="col-md">
+            @Model.ItemName
+        </div>
+    </div>
+    <br />
+    <div class="d-flex flex-row">
+        <div class="col-md">
+            <a>@Model.ItemClass</a>
+        </div>
+    </div>
+    <br />
+    @if (Model.Implicits != null)
+    {
+        foreach (var imp in Model.Implicits)
+        {
+            <div class="d-flex flex-row">
+                <div class="col-md">
+                    @imp
+                </div>
+            </div>
+        }
+    }
+    <br />
+    @foreach (var prop in Model.Properties)
+    {
+        <div class="d-flex flex-row">
+            <div class="col-md">
+                @prop.Key : @prop.Value
+            </div>
+        </div>
+    }
+    <br />
+    @if (Model.Requirements != null)
+    {
+        <div class="d-flex flex-row">
+            <div class="col-md">
+                Requires:
+            </div>
+        </div>
+        @foreach (var req in Model.Requirements)
+        {
+            <div class="d-flex flex-row">
+                <div class="col-md">
+                    @req.Key : @req.Value               
+                </div>
+            </div>
+        }
+    }
+        <div class="d-flex flex-row">
+            <div class="col-md">
+                <img src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
+            </div>
+        </div>
+    </div>
+
