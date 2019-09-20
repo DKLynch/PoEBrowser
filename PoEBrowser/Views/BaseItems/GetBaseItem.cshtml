@@ -3,60 +3,97 @@
     ViewData["Title"] = Model.ItemName;
 }
 
-<div class="container">
-    <div class="d-flex flex-row">
-        <div class="col-md">
-            @Model.ItemName
-        </div>
-    </div>
-    <br />
-    <div class="d-flex flex-row">
-        <div class="col-md">
-            <a>@Model.ItemClass</a>
-        </div>
-    </div>
-    <br />
-    @if (Model.Implicits != null)
-    {
-        foreach (var imp in Model.Implicits)
-        {
-            <div class="d-flex flex-row">
-                <div class="col-md">
-                    @imp
+<div class="container-fluid m-sm-3 p-sm-3">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row my-sm-2 py-sm-2">
+                <div class="col-md-12">
+                    <img src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
                 </div>
             </div>
-        }
-    }
-    <br />
-    @foreach (var prop in Model.Properties)
-    {
-        <div class="d-flex flex-row">
-            <div class="col-md">
-                @prop.Key : @prop.Value
-            </div>
         </div>
-    }
-    <br />
-    @if (Model.Requirements != null)
-    {
-        <div class="d-flex flex-row">
-            <div class="col-md">
-                Requires:
-            </div>
-        </div>
-        @foreach (var req in Model.Requirements)
-        {
-            <div class="d-flex flex-row">
-                <div class="col-md">
-                    @req.Key : @req.Value               
+        <div class="col-md-10">
+            <div class="row mt-sm-2 pt-sm-2 mb-0 pt-0">
+                <div class="col-md-12 text-left">
+                    <a href="#" style="font-size: larger"><b>@Model.ItemName</b></a>
                 </div>
             </div>
-        }
-    }
-        <div class="d-flex flex-row">
-            <div class="col-md">
-                <img src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
+            <div class="row mt-0 pt-0 mb-sm-2 pb-sm-2">
+                <div class="col-md-12 text-left">
+                    <a asp-action="GetBaseItemsByType" asp-route-type=@Model.ItemClass style="font-size: medium"><i>@Model.ItemClass</i></a>
+                </div>
             </div>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-md-12"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row mb-0 mt-sm-2">
+                                <div class="col-md-12">
+                                    <h6><b>Implicit(s)</b></h6>
+                                </div>
+                            </div>
 
+                            @if (Model.Implicits.Count() > 0)
+                            {
+                                foreach (var imp in Model.Implicits)
+                                {
+                                    <div class="row mt-0 mb-1">
+                                        <div class="col-md-12">
+                                            <p style="font-size: small">@imp</p>
+                                        </div>                                     
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p style="font-size: small"><i>Item has no implicit modifiers.</i></p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="row mb-0 mt-sm-2">
+                        <div class="col-md-12">
+                            <h6><b>Properties</b></h6>
+                        </div>
+                    </div>                   
+                    
+                    @foreach (var prop in Model.Properties)
+                    {
+                        <div class="row mt-0 mb-0 p-0">
+                            <div class="col-md-12">
+                                <p class="m-0 p-0" style="font-size: small">@prop.Key : @prop.Value</p>
+                            </div>                          
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="row mt-sm-2 pt-sm-2">
+                <div class="col-md-12">
+                    @if (Model.Requirements != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6><b>Requirements:</b></h6>
+                            </div>
+                        </div>
+
+                        @foreach (var req in Model.Requirements)
+                        {
+                            if (req.Value != 0)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="m-0 p-0" style="font-size: small">@req.Key : @req.Value</p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

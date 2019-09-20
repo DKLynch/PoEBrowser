@@ -46,7 +46,7 @@ namespace PoEBrowser.Models
         public Dictionary<string, object> Properties { get; set; }
 
         [BsonElement("requirements")]
-        public Dictionary<string, object> Requirements { get; set; }
+        public Dictionary<string, int> Requirements { get; set; }
 
         [BsonElement("visual_identity")]
         public Dictionary<string, object> VisualIdentity { get; set; }
