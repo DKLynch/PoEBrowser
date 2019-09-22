@@ -1,0 +1,98 @@
+﻿@model PoEBrowser.Models.CurrencyItem;
+
+@{
+    ViewData["Title"] = "GetCurrencyItem";
+}
+
+<div class="container-fluid m-sm-3 p-sm-3">
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row my-sm-2 py-sm-2">
+                <div class="col-md-12">
+                    <img src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="row mt-sm-2 pt-sm-2 mb-0 pt-0">
+                <div class="col-md-12 text-left">
+                    <a href="#" style="font-size: larger"><b>@Model.ItemName</b></a>
+                </div>
+            </div>
+            <div class="row mt-0 pt-0 mb-0 pb-0">
+                <div class="col-md-12 text-left">
+                    <p style="font-size: medium"><i>@Model.ItemClass</i></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="row mb-0 mt-1">
+                                <div class="col-md-12">
+                                    <h6><b>Description</b></h6>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    @if (Model.Description != "")
+                                    {
+                                        <p style="font-size: small">@Model.Description</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="font-size: small"><i>Item has no description.</i></p>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="row mb-0 mt-2">
+                                <div class="col-md-12">
+                                    <h6><b>Directions</b></h6>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    @if (Model.Directions != "")
+                                    {
+                                        <p style="font-size: small">@Model.Directions</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="font-size: small"><i>Item has no directions.</i></p>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row mb-0 mt-2">
+                                <div class="col-md-12">
+                                    <h6><b>Stack Sizes</b></h6>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    <p class="mb-0 pb-0" style="font-size: small">Inventory: @Model.StackSize</p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    <p class="mb-0 pb-0" style="font-size: small">Stash Tab: @Model.CurrencyTabStackSize</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

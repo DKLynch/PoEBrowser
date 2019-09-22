@@ -37,9 +37,9 @@
                             {
                                 foreach (var imp in Model.Implicits)
                                 {
-                                    <div class="row mt-0 mb-1">
+                                    <div class="row mt-0 mb-0">
                                         <div class="col-md-12">
-                                            <p style="font-size: small">@imp</p>
+                                            <p class="m-0 p-0 text-capitalize" style="font-size: small">@imp</p>
                                         </div>                                     
                                     </div>
                                 }
@@ -48,12 +48,13 @@
                             {
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p style="font-size: small"><i>Item has no implicit modifiers.</i></p>
+                                        <p class="m-0 p-0" style="font-size: small"><i>Item has no implicit modifiers.</i></p>
                                     </div>
                                 </div>
                             }
                         </div>
                     </div>
+
                     <div class="row mb-0 mt-sm-2">
                         <div class="col-md-12">
                             <h6><b>Properties</b></h6>
@@ -62,21 +63,23 @@
                     
                     @foreach (var prop in Model.Properties)
                     {
-                        <div class="row mt-0 mb-0 p-0">
+                        <div class="row mt-0 mb-0">
                             <div class="col-md-12">
-                                <p class="m-0 p-0" style="font-size: small">@prop.Key : @prop.Value</p>
+                                <p class="m-0 p-0 text-capitalize" style="font-size: small">@prop.Key.Replace('_', ' ') : @prop.Value</p>
                             </div>                          
                         </div>
                     }
+
                 </div>
             </div>
+
             <div class="row mt-sm-2 pt-sm-2">
                 <div class="col-md-12">
                     @if (Model.Requirements != null)
                     {
                         <div class="row">
                             <div class="col-md-12">
-                                <h6><b>Requirements:</b></h6>
+                                <h6><b>Requirements</b></h6>
                             </div>
                         </div>
 
@@ -86,7 +89,7 @@
                             {
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p class="m-0 p-0" style="font-size: small">@req.Key : @req.Value</p>
+                                        <p class="m-0 p-0 text-capitalize" style="font-size: small">@req.Key : @req.Value</p>
                                     </div>
                                 </div>
                             }
@@ -94,6 +97,7 @@
                     }
                 </div>
             </div>
+
         </div>
     </div>
 </div>

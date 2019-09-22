@@ -51,6 +51,36 @@ namespace PoEBrowser.Controllers
             return View("GetCurrencyItems", model);
         }
 
+        [Route("{name}")]
+        [ActionName("GetCurrencyItem")]
+        public ActionResult GetCurrencyItem(string name)
+        {
+            var model = new CurrencyItem();
+            var query = from b in dB.BaseItems.AsQueryable()
+                        where b.ReleaseState != "unreleased" &&
+                              b.ItemClass == "StackableCurrency" &&
+                              !b.ItemName.Contains("Fossil") &&
+                              !b.ItemName.Contains("Essence") &&
+                              !b.ItemName.Contains("Remnant") &&
+                              b.ItemName != "Enchant" &&
+                              b.ItemName == name
+                        select new CurrencyItem()
+                        {
+                            ItemName = b.ItemName,
+                            VisualIdentity = b.VisualIdentity,
+                            Tags = b.Tags,
+                            DropLevel = b.DropLevel,
+                            Properties = b.Properties                        
+                        };
+
+            model = query.FirstOrDefault();
+            SetCurrencyImgSrc(model);
+            SetCurrencyType(model);
+            GetCurrencyProperties(model);
+
+            return View("GetCurrencyItem", model);
+        }
+
         // Manipulates the visual identity string in order to generate the required link from the PoE CDN
         private void SetCurrencyImgSrc(CurrencyItem currency)
         {
@@ -93,6 +123,16 @@ namespace PoEBrowser.Controllers
             {
                 currency.ItemClass = "Currency";
             }
+        }
+
+        // Workaround method to set individual item properties after the fact
+        // Select statement in the query does not support GetValueOrDefault unfortunately.
+        private void GetCurrencyProperties(CurrencyItem currency)
+        {
+            currency.Description = (string)currency.Properties.GetValueOrDefault("description", "");
+            currency.Directions = (string)currency.Properties.GetValueOrDefault("directions", "");
+            currency.StackSize = (int)currency.Properties.GetValueOrDefault("stack_size", 0);
+            currency.CurrencyTabStackSize = (int)currency.Properties.GetValueOrDefault("stack_size_currency_tab", 0);
         }
     }
 }
