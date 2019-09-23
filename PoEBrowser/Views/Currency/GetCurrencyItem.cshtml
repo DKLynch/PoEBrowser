@@ -73,6 +73,26 @@
 
                             <div class="row mb-0 mt-2">
                                 <div class="col-md-12">
+                                    <h6><b>Drop Level</b></h6>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    @if (Model.DropLevel > 0)
+                                    {
+                                        <p style="font-size: small">@Model.DropLevel</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="font-size: small"><i>Item can drop at all levels.</i></p>
+                                    }
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-0 mt-2">
+                                <div class="col-md-12">
                                     <h6><b>Stack Sizes</b></h6>
                                 </div>
                             </div>

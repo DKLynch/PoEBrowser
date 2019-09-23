@@ -33,12 +33,12 @@ namespace PoEBrowser.Controllers
                         {
                             Name = e.Name,
                             Level = e.Level,
-                            LevelRestriction = (e.LevelRestriction == BsonNull.Value) ? 100 : e.LevelRestriction,
+                            LevelRestriction = (e.LevelRestriction == BsonNull.Value) ? 0 : e.LevelRestriction,
                             IsCorruptionOnly = e.IsCorruptionOnly,
                             Mods = e.Mods,
                             VisualIdentity = b.VisualIdentity
                         };
-
+        
             model = query.ToList();
             model.ForEach(x =>
             {
@@ -49,6 +49,34 @@ namespace PoEBrowser.Controllers
             var grouped = model.OrderBy(x => x.Type).ThenBy(x => x.Level).ToList();
             model = grouped;
             return View("GetEssences", model);
+        }
+
+        [Route("{name}")]
+        [ActionName("GetEssenceByName")]
+        public ActionResult GetEssenceByName(string name)
+        {
+            var model = new Essence();
+            var query = from e in dB.Essences.AsQueryable()
+                        join b in dB.BaseItems.AsQueryable() on e.Name equals b.ItemName
+                        where e.Name == name
+                        select new Essence()
+                        {
+                            Name = e.Name,
+                            Level = e.Level,
+                            LevelRestriction = (e.LevelRestriction == BsonNull.Value) ? 0 : e.LevelRestriction,
+                            SpawnLevelMin = e.SpawnLevelMin,
+                            SpawnLevelMax = e.SpawnLevelMax,
+                            IsCorruptionOnly = e.IsCorruptionOnly,
+                            Mods = e.Mods,
+                            OtherProperties = e.OtherProperties,
+                            VisualIdentity = b.VisualIdentity,
+                        };
+
+            model = query.FirstOrDefault();
+            SetEssenceType(model);
+            SetEssenceImgSrc(model);
+
+            return View("GetEssence", model);
         }
 
         // Utilizes regex to determine the last word in the name string to classify each essence's type

@@ -1,0 +1,113 @@
+﻿@model PoEBrowser.Models.Essence
+@{
+    ViewData["Title"] = "GetEssence";
+}
+
+@{ 
+    Model.IsCorruptionOnly = (bool)Model.OtherProperties.GetValueOrDefault("is_corruption_only", false);
+}
+
+<div class="container-fluid m-sm-3 p-sm-3">
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row my-sm-2 py-sm-2">
+                <div class="col-md-12">
+                    <img src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="row mt-sm-2 pt-sm-2 mb-0 pt-0">
+                <div class="col-md-12 text-left">
+                    <a href="#" style="font-size: larger"><b>@Model.Name</b></a>
+                </div>
+            </div>
+            <div class="row mt-0 pt-0 mb-0 pb-0">
+                <div class="col-md-12 text-left">
+                    <p class ="mb-0 pb-0" style="font-size: medium">Tier: @Model.Level</p>
+                </div>
+            </div>
+
+            @if (Model.IsCorruptionOnly)
+            {
+                <div class="row mt-0 pt-0 mb-0 pb-0">
+                    <div class="col-md-12 text-left">
+                        <p class ="mb-0 pb-0" style="font-size: small; color: darkred; text-shadow: 1px 1px 1px #000000">Only obtained through corruption.</p>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="row mb-0 mt-3">
+                                <div class="col-md-12">
+                                    <h6><b>Item Level Restriction</b></h6>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    <p style="font-size: small">@Model.LevelRestriction</p>
+                                </div>
+                            </div>
+
+                            <div class="row mb-0 mt-1">
+                                <div class="col-md-12">
+                                    <h6><b>Spawn Levels</b></h6>
+                                </div>
+                            </div>
+
+                            <div class="row mt-0 mb-0">
+                                <div class="col-md-12">
+                                    @if (Model.SpawnLevelMin == 0 && Model.SpawnLevelMax == 0)
+                                    {
+                                        if (Model.IsCorruptionOnly)
+                                        {
+                                            <p style="font-size: small"><i>This Essence does not spawn naturally and must be created through corruption.</i></p>
+                                        }
+                                        else
+                                        {
+                                            <p style="font-size: small"><i>This Essence does not spawn naturally and must be created through upgrading.</i></p>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <p style="font-size: small">This Essence spawns between levels @Model.SpawnLevelMin and @Model.SpawnLevelMax</p>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="row mt-1 mb-0">
+                                <div class="col-md-12">
+                                    <table class="table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-size: small" class="p-1 m-1 text-center">Item Type</th>
+                                                <th style="font-size: small" class="p-1 m-1 text-center">Mod Applied</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var modifier in Model.Mods)
+                                            {
+                                                <tr>
+                                                    <td class="pr-sm-2 pl-sm-2" style="font-size: small">@modifier.Key</td>
+                                                    <td class="pr-sm-2 pl-sm-2" style="font-size: small">@modifier.Value</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

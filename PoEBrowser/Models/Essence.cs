@@ -21,6 +21,15 @@ namespace PoEBrowser.Models
         [BsonElement("name")]
         public string Name { get; set; }
 
+        [BsonElement("spawn_level_min")]
+        public int SpawnLevelMin { get; set; }
+
+        [BsonElement("spawn_level_max")]
+        public int SpawnLevelMax { get; set; }
+
+        [BsonElement("type")]
+        public Dictionary<string, object> OtherProperties { get; set; }
+
         public bool IsCorruptionOnly { get; set; }
         public Dictionary<string, object> VisualIdentity { get; set; }
         public string Type { get; set; }
