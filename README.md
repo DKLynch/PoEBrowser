@@ -11,7 +11,7 @@ Skill and support gems are browsable and filterable by type, and dedicated pages
 
 Currency items can be browsed, with pages displaying their descriptions, how to use them and their stack sizes.
 
-Essence items are currently browsable, but individual data displays are not yet implemented.
+Essence items are currently browsable and their individual effects and properties are displayed.
 
 # Technical Stuff
 PoEBrowser currently makes use of the following technologies:
