@@ -12,36 +12,40 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row mt-1 mb-1">
         <div style="text-align: center; font-size: x-small; width: 100%"><i>Displaying @totalGems Gems</i></div>
     </div>
 
-    <div class="row">
+    <div class="row mt-2">
         @if (gemCounts[0] > 0)
         {
             <div class="col-md">
-                <h5 style="text-align: center"><b>Dexterity</b></h5>
+                <h6 class="mb-1 text-muted" style="text-align: center"><b>Dexterity</b></h6>
+                <hr class="mt-0 mb-2" />
             </div>
         }
 
         @if (gemCounts[1] > 0)
         {
             <div class="col-md">
-                <h5 style="text-align: center"><b>Intelligence</b></h5>
+                <h6 class="mb-1 text-muted" style="text-align: center"><b>Intelligence</b></h6>
+                <hr class="mt-0 mb-2" />
             </div>
         }
 
         @if (gemCounts[2] > 0)
         {
             <div class="col-md">
-                <h5 style="text-align: center"><b>Strength</b></h5>
+                <h6 class="mb-1 text-muted" style="text-align: center"><b>Strength</b></h6>
+                <hr class="mt-0 mb-2" />
             </div>
         }
 
         @if (gemCounts[3] > 0)
         {
             <div class="col-md">
-                <h5 style="text-align: center"><b>Other</b></h5>
+                <h6 class="mb-1 text-muted" style="text-align: center"><b>Other</b></h6>
+                <hr class="mt-0 mb-2" />
             </div>
         }
     </div>

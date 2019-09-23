@@ -10,70 +10,68 @@
 
 <div class="container">
 
-    <div class="row">
-        <div style="text-align: center; font-size: x-small; width: 100%"><i>Displaying @totalItems Items</i></div>
+    <div class="row mt-1 mb-1">
+        <div class="col" style="text-align: center; font-size: x-small; width: 100%">
+            <i>Displaying @totalItems Items</i>
+        </div>
     </div>
 
     @{
         var prevItemType = "";
-
-        <div class="container">
-            @{
-                var itemCount = 0;
-                var rowClosed = false;
-
-                for (int i = 0; i < totalItems; i++)
+        var itemCount = 0;
+        var rowClosed = false;
+    }
+    
+    <div class="container">
+        @for (int i = 0; i < totalItems; i++)
+        {
+            if (prevItemType != Model[i].ItemClass)
+            {
+                if (!rowClosed)
                 {
-                    if (prevItemType != Model[i].ItemClass)
-                    {
-                        if (!rowClosed)
-                        {
-                            @:</div>
-                            rowClosed = true;
-                        }
-
-                        if(i > 0)
-                        {
-                            <br />
-                        <br />
-                        }
-                        
-                        <div class="row" style="width: 100%">
-                            <div class="col-md">
-                                <h5><b>@Model[i].ItemClass</b></h5>
-                            </div>
-                        </div>
-
-                        itemCount = 0;
-                    }
-
-                    if (itemCount == 0)
-                    {
-                        @:<div class='row'>
-                        rowClosed = false;
-                    }
-
-                    <div class="col-md-4">
-                        <img style="max-height: 25px; width: auto" src=@Model[i].ImgSrcString>
-                        <a asp-action="GetBaseItemByName" asp-route-name="@Model[i].ItemName">@Model[i].ItemName</a>
-                    </div>
-
-                    if (itemCount == 2)
-                    {
-                        itemCount = 0;
-                        rowClosed = true;
-                        @:</div>
-                    }
-                    else
-                    {
-                        itemCount++;
-                    }
-
-                    prevItemType = Model[i].ItemClass;
+                    @:</div>
+                    rowClosed = true;
                 }
+
+                @:<div class="row" style="width: 100%">
+                    @:<div class="col-md">
+                        <p class="mt-4 mb-1 text-muted"><b>@Model[i].ItemClass</b></p>
+                        <hr class="mt-0 mb-1" />
+                    @:</div>
+                @:</div>
+
+                itemCount = 0;
 
             }
 
-        </div>
-    }
-</div>
+            if(itemCount == 0)
+            {
+                @:<div class="row">
+                rowClosed = false;
+            }
+
+            @:<div class="col-md-4 mt-0 pt-0">
+                <img style="max-height: 25px; width: auto" src="@Model[i].ImgSrcString" />
+                <a asp-action="GetBaseItemByName" asp-route-name="@Model[i].ItemName">@Model[i].ItemName</a>
+            @:</div>
+
+            if(itemCount == 2)
+            {
+                itemCount = 0;
+                rowClosed = true;
+                @:</div>
+            }
+            else
+            {
+                itemCount++;
+            }
+
+            prevItemType = Model[i].ItemClass;
+
+        }
+    
+@{ 
+    // Attempt to alleviate missing start tag errors in IDE
+    @:</div>
+@:</div>
+}

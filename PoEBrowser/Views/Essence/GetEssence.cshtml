@@ -26,7 +26,7 @@
             </div>
             <div class="row mt-0 pt-0 mb-0 pb-0">
                 <div class="col-md-12 text-left">
-                    <p class ="mb-0 pb-0" style="font-size: medium">Tier: @Model.Level</p>
+                    <p class ="mb-0 pb-0" style="font-size: small">Tier: @Model.Level</p>
                 </div>
             </div>
 
@@ -44,41 +44,37 @@
                     <div class="row">
                         <div class="col-md-12">
 
-                            <div class="row mb-0 mt-3">
+                            <div class="row mb-0 mt-4">
                                 <div class="col-md-12">
-                                    <h6><b>Item Level Restriction</b></h6>
+                                    <h6 class="mb-1 text-muted"><b>Spawn Levels</b></h6>
+                                    <hr class="mt-0 mb-2" />
                                 </div>
                             </div>
 
-                            <div class="row mt-0 mb-0">
-                                <div class="col-md-12">
-                                    <p style="font-size: small">@Model.LevelRestriction</p>
-                                </div>
-                            </div>
-
-                            <div class="row mb-0 mt-1">
-                                <div class="col-md-12">
-                                    <h6><b>Spawn Levels</b></h6>
-                                </div>
-                            </div>
-
-                            <div class="row mt-0 mb-0">
+                            <div class="row mb-0">
                                 <div class="col-md-12">
                                     @if (Model.SpawnLevelMin == 0 && Model.SpawnLevelMax == 0)
                                     {
                                         if (Model.IsCorruptionOnly)
                                         {
-                                            <p style="font-size: small"><i>This Essence does not spawn naturally and must be created through corruption.</i></p>
+                                            <p style="font-size: small" class="mb-0"><i>This Essence does not spawn naturally and must be created through corruption.</i></p>
                                         }
                                         else
                                         {
-                                            <p style="font-size: small"><i>This Essence does not spawn naturally and must be created through upgrading.</i></p>
+                                            <p style="font-size: small" class="mb-0"><i>This Essence does not spawn naturally and must be created through upgrading.</i></p>
                                         }
                                     }
                                     else
                                     {
-                                        <p style="font-size: small">This Essence spawns between levels @Model.SpawnLevelMin and @Model.SpawnLevelMax</p>
+                                        <p style="font-size: small" class="mb-0">This Essence spawns between levels @Model.SpawnLevelMin and @Model.SpawnLevelMax</p>
                                     }
+                                </div>
+                            </div>
+
+                            <div class="row mb-0 mt-4">
+                                <div class="col-md-12">
+                                    <h6 class="mb-1 text-muted"><b>Mods</b></h6>
+                                    <hr class="mt-0 mb-2" />
                                 </div>
                             </div>
 
