@@ -5,27 +5,13 @@
 }
 
 @{
+    // Skill Icon
     string skillIconSrc = "https://web.poecdn.com/image/Art/2DArt/SkillIcons/" + Model.BaseItem.DisplayName.Replace(" ", "") + ".png";
-}
 
-<div class="container">
-    <div class="d-flex flex-row justify-content-start align-items-center">
-        <img style="width: 60px; height: 60px;" src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
-        <div class="d-flex justify-content-start align-items-end px-sm-2">
-            <h3>@Model.BaseItem.DisplayName</h3>
-        </div>
-    </div>
-    <div class="d-flex flex-row justify-content-start align-items-end">
-        @if (Model.ActiveSkill != null)
-        {
-            @Model.ActiveSkill.Description
-        }
-    </div>
-</div>
+    // Gem Properties
+    Model.GemName = Model.BaseItem.DisplayName;
 
-<br />
-
-@{
+    // Stat Indices
     List<int> nonNullStatIndexes = new List<int>();
 
     int numStats = 0;
@@ -36,12 +22,6 @@
     else
     {
         numStats = Model.PerLevel["1"].Stats.Distinct().Count();
-    }
-
-    List<string> statReqs = new List<string>();
-    if (Model.PerLevel["1"].StatRequirements != null)
-    {
-        statReqs = Model.PerLevel["1"].StatRequirements.Keys.ToList();
     }
 
     foreach (var level in Model.PerLevel)
@@ -58,11 +38,163 @@
         }
     }
     nonNullStatIndexes = nonNullStatIndexes.Distinct().ToList();
+
+    // Stat Requirements
+    List<string> statReqs = new List<string>();
+    if (Model.PerLevel["1"].StatRequirements != null)
+    {
+        statReqs = Model.PerLevel["1"].StatRequirements.Keys.ToList();
+    }
+
+
+    // Click Actions
+    var tagClickAction = Model.IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
+
+    // Vaal Values
+    var nonVaalCounterpart = (Model.SecondaryEffect != null) ? Model.GemName.Replace("Vaal ", "") : null;
 }
 
-<h5>Base Stats</h5>
-<div style="overflow-x:auto;">
-    <table cellpadding="5" cellspacing="5" class="table-responsive-sm table-striped table-bordered">
+<div class="container-fluid m-sm-3 p-sm-3">
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row mt-sm-2">
+                <div class="col-md-12">
+                    <img class="mx-auto d-block" src=@Model.ImgSrcString.Replace(".png?scale=1", ".png")>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-10">
+            <div class="row mt-sm-2 pt-sm-2 mb-0 pt-0">
+                <div class="col-md-12 text-left">
+                    <a href="#" style="font-size: larger"><b>@Model.GemName</b></a>
+                </div>
+            </div>
+
+            <div class="row mt-0 pt-0 mb-0 pb-0">
+                <div class="col-md-12 text-left">
+                    @foreach (var tag in Model.Tags.Where(x => x != "active_skill" && x != "support"))
+                    {
+                        <a asp-action="@tagClickAction" asp-route-type="@tag" style="font-size: small">@tag, </a>
+                    }
+                </div>
+            </div>
+
+            @if (!Model.IsSupport)
+            {
+                <div class="row mb-0 mt-3">
+                    <div class="col-md-12">
+                        <h6 class="mb-1 text-muted"><b>Description</b></h6>
+                        <hr class="mt-0 mb-2" />
+                    </div>
+                </div>
+
+                <div class="row mt-0 pt-0 mb-0 pb-0">
+                    <div class="col-md-12 text-left">
+                        @if (Model.ActiveSkill.Description != "")
+                        {
+                            <p style="font-size: small">@Model.ActiveSkill.Description</p>
+                        }
+                        else
+                        {
+                            <p style="font-size: small"><i>Item has no description.</i></p>
+                        }
+
+                    </div>
+                </div>
+            }
+
+            @if (Model.IsSupport && Model.Static.ManaMultiplier != 0)
+            {
+                <div class="row mb-0 mt-3">
+                    <div class="col-md-12">
+                        @if (Model.Static.ManaReservationOverride != 0)
+                        {
+                            <h6 class="mb-1 text-muted"><b>Mana Reservation</b></h6>
+                        }
+                        else
+                        {
+                            <h6 class="mb-1 text-muted"><b>Mana Cost Multiplier</b></h6>
+                        }
+                        <hr class="mt-0 mb-2" />
+                    </div>
+                </div>
+
+                <div class="row mt-0 pt-0 mb-0 pb-0">
+                    <div class="col-md-12 text-left">
+                        @if (Model.Static.ManaReservationOverride != 0)
+                        {
+                            <p style="font-size: small">@Model.Static.ManaReservationOverride %</p>
+                        }
+                        else
+                        {
+                            <p style="font-size: small">@Model.Static.ManaMultiplier %</p>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="row mb-0 mt-3">
+                <div class="col-md-12">
+                    <h6 class="mb-1 text-muted"><b>Gem Quality Effect(s) Per %</b></h6>
+                    <hr class="mt-0 mb-2" />
+                </div>
+            </div>
+
+            <div class="row mt-0 pt-0 mb-0 pb-0">
+                <div class="col-md-12 text-left">         
+                    <table cellpadding="2" cellspacing="2" class="table-sm table-striped table-bordered mt-1 mb-3">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Value</th>
+                            </tr>                          
+                        </thead>
+                        <tbody>
+                            @foreach (var stat in Model.Static.QualityStats)
+                            {
+                                <tr>
+                                    <td style="font-size: small">@stat.GetValueOrDefault("id", "")</td>
+                                    <td style="font-size: small">@((float)((int)stat.GetValueOrDefault("value", "")) / 1000)</td>
+                                </tr>
+                            }
+                        </tbody>                       
+                    </table>
+                </div>
+            </div>
+
+            @if (Model.SecondaryEffect != null)
+            {
+
+                <div class="row mb-0 mt-1">
+                    <div class="col-md-12">
+                        <h6 class="mb-1 text-muted"><b>Non-Vaal Counterpart</b></h6>
+                        <hr class="mt-0 mb-2" />
+                    </div>
+                </div>
+
+                <div class="row mt-0 pt-0 mb-0 pb-0">
+                    <div class="col-md-12 text-left">
+                        <a asp-action="GetSkillGemByName" asp-route-name=@nonVaalCounterpart>@nonVaalCounterpart</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid" style="overflow-x:auto">
+
+    <div class="row mb-0 mt-2">
+        <div class="col-md-12">
+            <h6 class="mb-1 text-muted"><b>Base Stats</b></h6>
+            <hr class="mt-0 mb-2" />
+        </div>
+    </div>
+
+    <table cellpadding="5" cellspacing="5" class="table-responsive-sm table-striped table-bordered mt-1 mb-3">
         <thead class="thead-dark">
             <tr>
                 @for (int i = 0; i < numStats; i++)
@@ -86,12 +218,15 @@
             </tr>
         </tbody>
     </table>
-</div>
-<br />
 
-<h5>Per Level Stats</h5>
-<div style="overflow-x:auto;">
-    <table cellpadding="5" cellspacing="5" class="table-striped table-bordered">
+    <div class="row mb-0 mt-4">
+        <div class="col-md-12">
+            <h6 class="mb-1 text-muted"><b>Per Level Stats</b></h6>
+            <hr class="mt-0 mb-2" />
+        </div>
+    </div>
+
+    <table cellpadding="5" cellspacing="5" class="table-striped table-bordered mt-1 mb-3">
         <thead class="thead-dark">
             <tr>
                 <th style="font-size: small">Level</th>
