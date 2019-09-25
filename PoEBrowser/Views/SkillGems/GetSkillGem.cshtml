@@ -52,6 +52,12 @@
 
     // Vaal Values
     var nonVaalCounterpart = (Model.SecondaryEffect != null) ? Model.GemName.Replace("Vaal ", "") : null;
+
+    // Hacky fix for Vaal-Breach
+    if(Model.GemName == "Vaal Breach")
+    {
+        nonVaalCounterpart = "Portal";
+    }
 }
 
 <div class="container-fluid m-sm-3 p-sm-3">
@@ -176,7 +182,7 @@
 
                 <div class="row mt-0 pt-0 mb-0 pb-0">
                     <div class="col-md-12 text-left">
-                        <a asp-action="GetSkillGemByName" asp-route-name=@nonVaalCounterpart>@nonVaalCounterpart</a>
+                        <p style="font-size: small">@nonVaalCounterpart</p>
                     </div>
                 </div>
             }
