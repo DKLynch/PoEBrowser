@@ -1,0 +1,46 @@
+﻿@model List<PoEBrowser.Models.BaseItem>
+
+<table id="sortableTable" cellpadding="5" cellspacing="5" class="table-striped table-bordered mt-4" style="table-layout: auto;">
+
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-nowrap sorter-false">Item</th>
+            <th class="text-nowrap">Drop Level</th>
+            <th class="text-nowrap sorter-false">Implicit(s)</th>
+            <th class="text-nowrap sorter-false">Tags</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="container">
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <img src="@item.ImgSrcString" />
+                        </div>
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <a asp-action="GetBaseItemByName" asp-route-name="@item.ItemName">@item.ItemName</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @item.DropLevel
+                </td>
+                <td>
+                    @foreach (var imp in item.Implicits)
+                    {
+                        <p class="m-0" style="font-size: small">@imp</p>
+                    }
+                </td>
+                <td>
+                    @foreach (var tag in item.Tags)
+                    {
+                        <p class="m-0" style="font-size: small">@tag</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -5,30 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PoEBrowser</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    </environment>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/css/theme.default.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/css/theme.bootstrap_4.min.css" />
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-xl navbar-fixed-top navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PoEBrowser</a>
-        <ul class="nav navbar-nav mr-auto">
-            <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Base Items", "BaseItems")</li>
-            <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Active Skill Gems", "ActiveSkillGems")</li>
-            <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Support Skill Gems", "SupportSkillGems")</li>
-            <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Currency", "Currency")</li>
-            <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Essences", "Essences")</li>
-        </ul>
-            <form class="form-inline my-2 my-lg-2">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Base Items", "BaseItems")</li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-success" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: small">
+                        Skill Gems
+                    </a>
+                    <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item text-success" asp-route="ActiveSkillGems" style="font-size: small">Active Skill Gems</a>
+                        <a class="dropdown-item text-success" asp-route="SupportSkillGems" style="font-size: small">Support Skill Gems</a>
+                    </div>
+                </li>
+                <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Currency", "Currency")</li>
+                <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Essences", "Essences")</li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container body-content">
@@ -39,27 +44,12 @@
         </footer>
     </div>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.widgets.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="~/js/site.js"></script>
 
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

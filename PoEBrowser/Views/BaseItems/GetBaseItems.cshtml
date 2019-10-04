@@ -16,12 +16,21 @@
         </div>
     </div>
 
+    <div class="row mt-1 mb-1">
+        <div class="flex-column ml-auto justify-content-end">
+            <form class="form-inline my-2 my-lg-2">
+                <input class="form-control mr-sm-2 bg-dark" type="text" placeholder="Search" name="q">
+                <button class="btn btn-secondary my-2 my-sm-0" asp-action="GetBaseItems">Search</button>
+            </form>
+        </div>
+    </div>
+
     @{
         var prevItemType = "";
         var itemCount = 0;
         var rowClosed = false;
     }
-    
+
     <div class="container">
         @for (int i = 0; i < totalItems; i++)
         {
@@ -29,24 +38,27 @@
             {
                 if (!rowClosed)
                 {
-                    @:</div>
-                    rowClosed = true;
-                }
-
-                @:<div class="row" style="width: 100%">
-                    @:<div class="col-md">
-                        <p class="mt-4 mb-1 text-muted"><b>@Model[i].ItemClass</b></p>
-                        <hr class="mt-0 mb-1" />
-                    @:</div>
                 @:</div>
-
-                itemCount = 0;
-
+                rowClosed = true;
             }
 
-            if(itemCount == 0)
-            {
-                @:<div class="row">
+            @:<div class="row" style="width: 100%">
+                @:<div class="col-md mt-4">
+                    <a class="text-muted" asp-action="GetBaseItemsByType" asp-route-type="@Model[i].ItemClass" id="@Model[i].ItemClass"><b>@Model[i].ItemClass</b></a>
+                    <hr class="mt-1 mb-1" />
+                @:</div>
+            @:</div>
+
+
+
+
+            itemCount = 0;
+
+        }
+
+        if (itemCount == 0)
+        {
+            @:<div class="row">
                 rowClosed = false;
             }
 
@@ -55,23 +67,26 @@
                 <a asp-action="GetBaseItemByName" asp-route-name="@Model[i].ItemName">@Model[i].ItemName</a>
             @:</div>
 
-            if(itemCount == 2)
+
+
+
+            if (itemCount == 2)
             {
                 itemCount = 0;
                 rowClosed = true;
-                @:</div>
-            }
-            else
-            {
-                itemCount++;
-            }
-
-            prevItemType = Model[i].ItemClass;
-
+            @:</div>
         }
-    
-@{ 
-    // Attempt to alleviate missing start tag errors in IDE
-    @:</div>
+        else
+        {
+            itemCount++;
+        }
+
+        prevItemType = Model[i].ItemClass;
+
+    }
+
+        @{
+            // Attempt to alleviate missing start tag errors in IDE
+        @:</div>
 @:</div>
 }

@@ -24,9 +24,8 @@ namespace PoEBrowser.Controllers
         // GET: /Essences/
         [Route("")]
         [ActionName("GetEssences")]
-        public ActionResult GetEssences()
+        public ActionResult GetEssences([FromQuery] string q)
         {
-            var model = new List<Essence>();
             var query = from e in dB.Essences.AsQueryable()
                         join b in dB.BaseItems.AsQueryable() on e.Name equals b.ItemName
                         select new Essence()
@@ -38,8 +37,17 @@ namespace PoEBrowser.Controllers
                             Mods = e.Mods,
                             VisualIdentity = b.VisualIdentity
                         };
-        
-            model = query.ToList();
+
+            var items = query;
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                var searchTerm = q.ToLower();
+                items = items.Where(i => i.Name.ToLower().Contains(searchTerm));
+            }
+
+            var model = items.ToList();
+
             model.ForEach(x =>
             {
                 SetEssenceType(x);

@@ -20,53 +20,8 @@ namespace PoEBrowser.Controllers
             dB = dBContext;
         }
 
-        // GET: /SkillGems
-        [Route("Active")]
-        public ActionResult GetActiveSkillGems()
-        {
-            var query = from g in dB.SkillGems.AsQueryable()
-                        join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
-                        where g.BaseItem.ReleaseState != "unreleased" &&
-                              g.IsSupport == false
-                        orderby g.BaseItem.DisplayName
-                        select new SkillGem()
-                        {
-                            GemName = g.BaseItem.DisplayName,
-                            Tags = g.Tags,
-                            IsSupport = g.IsSupport,
-                            VisualIdentity = b.VisualIdentity
-                        };
-
-            var gems = query.ToList();
-            var model = SortSkillGems(gems);
-            return View("GetSkillGems", model);
-        }
-
-        // GET: /SkillGems/type=cold
-        [Route("Active/type={type}")]
-        public ActionResult GetActiveSkillGemsByType(string type)
-        {
-            var query = from g in dB.SkillGems.AsQueryable()
-                        join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
-                        where g.BaseItem.ReleaseState != "unreleased" &&
-                              g.IsSupport == false &&
-                              g.Tags.Contains(type)
-                        orderby g.BaseItem.DisplayName
-                        select new SkillGem()
-                        {
-                            GemName = g.BaseItem.DisplayName,
-                            Tags = g.Tags,
-                            IsSupport = g.IsSupport,
-                            VisualIdentity = b.VisualIdentity
-                        };
-
-            var gems = query.ToList();
-            var model = SortSkillGems(gems);
-            return View("GetSkillGems", model);
-        }
-
         // GET: /SkillGems/Precision
-        [Route("{name}")]
+        [Route("Active/{name}")]
         public ActionResult GetActiveSkillGemByName(string name)
         {
             var gQuery = from g in dB.SkillGems.AsQueryable()
@@ -87,8 +42,43 @@ namespace PoEBrowser.Controllers
             return View("GetSkillGem", model);
         }
 
+        // GET: /SkillGems/Active/q=Chaos&tag=Projectile
+        [Route("Active")]
+        public ActionResult GetActiveSkillGems([FromQuery]string q, [FromQuery] string tag)
+        {
+            var query = from g in dB.SkillGems.AsQueryable()
+                        join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
+                        where g.BaseItem.ReleaseState != "unreleased" &&
+                              g.IsSupport == false
+                        orderby g.BaseItem.DisplayName
+                        select new SkillGem()
+                        {
+                            GemName = g.BaseItem.DisplayName,
+                            Tags = g.Tags,
+                            IsSupport = g.IsSupport,
+                            VisualIdentity = b.VisualIdentity
+                        };
+
+            var gems = query;
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                var searchTerm = q.ToLower();
+                gems = gems.Where(g => g.GemName.ToLower().Contains(searchTerm) || g.Tags.Contains(searchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(tag))
+            {
+                var searchTerm = tag.ToLower();
+                gems = gems.Where(g => g.Tags.Contains(searchTerm));
+            }
+
+            var model = SortSkillGems(gems.ToList());
+            return View("GetSkillGems", model);
+        }
+
         // GET: /SkillGems/Random
-        [Route("Random")]
+        [Route("Active/Random")]
         public ActionResult GetRandomActiveSkillGem()
         {
             var query = from g in dB.SkillGems.AsQueryable()
@@ -113,7 +103,7 @@ namespace PoEBrowser.Controllers
 
         // GET: /SkillGems/Support
         [Route("Support")]
-        public ActionResult GetSupportSkillGems()
+        public ActionResult GetSupportSkillGems([FromQuery] string q, [FromQuery] string tag)
         {
             var query = from g in dB.SkillGems.AsQueryable()
                         join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
@@ -128,8 +118,21 @@ namespace PoEBrowser.Controllers
                             VisualIdentity = b.VisualIdentity
                         };
 
-            var gems = query.ToList();
-            var model = SortSkillGems(gems);
+            var gems = query;
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                var searchTerm = q.ToLower();
+                gems = gems.Where(g => g.GemName.ToLower().Contains(searchTerm) || g.Tags.Contains(searchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(tag))
+            {
+                var searchTerm = tag.ToLower();
+                gems = gems.Where(g => g.Tags.Contains(searchTerm));
+            }
+
+            var model = SortSkillGems(gems.ToList());
             return View("GetSkillGems", model);
         }
 
@@ -153,29 +156,6 @@ namespace PoEBrowser.Controllers
             SetSkillGemImgSource(gem);
             var model = gem;
             return View("GetSkillGem", model);
-        }
-
-        // GET: /SkillGems/Support/type=cold
-        [Route("Support/type={type}")]
-        public ActionResult GetSupportSkillGemsByType(string type)
-        {
-            var query = from g in dB.SkillGems.AsQueryable()
-                        join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
-                        where g.BaseItem.ReleaseState != "unreleased" &&
-                              g.IsSupport == true &&
-                              g.Tags.Contains(type)
-                        orderby g.BaseItem.DisplayName
-                        select new SkillGem()
-                        {
-                            GemName = g.BaseItem.DisplayName,
-                            Tags = g.Tags,
-                            IsSupport = g.IsSupport,
-                            VisualIdentity = b.VisualIdentity
-                        };
-
-            var gems = query.ToList();
-            var model = SortSkillGems(gems);
-            return View("GetSkillGems", model);
         }
 
         // Divides the skill gems into lists depending on their respective gem type

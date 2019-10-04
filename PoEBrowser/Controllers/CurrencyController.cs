@@ -22,9 +22,8 @@ namespace PoEBrowser.Controllers
 
         [Route("")]
         [ActionName("GetCurrencyItems")]
-        public ActionResult GetAllCurrencyItems()
+        public ActionResult GetAllCurrencyItems([FromQuery] string q)
         {
-            var model = new List<CurrencyItem>();
             var query = from b in dB.BaseItems.AsQueryable()
                         where b.ReleaseState != "unreleased" &&
                               b.ItemClass == "StackableCurrency" &&
@@ -39,7 +38,16 @@ namespace PoEBrowser.Controllers
                             Tags = b.Tags
                         };
 
-            model = query.ToList();
+            var items = query;
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                var searchTerm = q.ToLower();
+                items = items.Where(i => i.ItemName.ToLower().Contains(searchTerm) || i.Tags.Contains(searchTerm));
+            }
+
+            var model = items.ToList();
+
             model.ForEach(x =>
             {
                 SetCurrencyImgSrc(x);

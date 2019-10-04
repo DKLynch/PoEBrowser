@@ -243,7 +243,8 @@
 
 <div class="container-fluid" style="overflow-x: auto">
 
-    <table cellpadding="5" cellspacing="5" class="table-striped table-bordered mt-1 mb-3">
+    <table cellpadding="5" cellspacing="5" class="table-responsive-sm table-striped table-bordered">
+
         <thead class="thead-dark">
             <tr>
                 <th style="font-size: small">Level</th>
@@ -251,7 +252,7 @@
 
                 @for (int i = 0; i < statReqs.Count(); i++)
                 {
-                    <th style="font-size: small">@statReqs[i] Req.</th>
+                    <th class="text-capitalize" style="font-size: small">@statReqs[i] Req.</th>
                 }
 
                 <th style="font-size : small">Mana Cost</th>
@@ -273,6 +274,7 @@
 
             </tr>
         </thead>
+
         <tbody>
             @foreach (var level in Model.PerLevel)
             {

@@ -1,0 +1,62 @@
+﻿@model List<PoEBrowser.Models.BaseItem>
+
+@{
+    var itemType = "";
+
+    // Determine the type
+    if(Model[0].Properties.ContainsKey("armour") || Model[0].Properties.ContainsKey("energy_shield") || Model[0].Properties.ContainsKey("evasion"))
+    {
+        if (Model[0].Properties.ContainsKey("block"))
+        {
+            itemType = "Shield";
+        }
+        else
+        {
+            itemType = "Armour";
+        }
+    }
+    else if (Model[0].Properties.ContainsKey("physical_damage_min"))
+    {
+        itemType = "Weapon";
+    }
+    else if (Model[0].Properties.ContainsKey("charges_per_use"))
+    {
+        itemType = "Flask";
+    }
+    else
+    {
+        itemType = "Other";
+    }
+
+    // Set our PartialView string to the respective type
+    var partialView = itemType;
+
+    // Re-manipulate itemType string to accurately display the item class
+    itemType = Model[0].ItemClass;
+    itemType = (itemType.EndsWith("s")) ? itemType : itemType + "s";
+    ViewData["Title"] = itemType;
+
+    //Set Item Total
+    var totalItems = Model.Count();
+}
+
+<div class="container m-0 p-0" style="width: 100%">
+    <div class="row justify-content-center">
+        <div class="align-content-center">
+            <div class="row mt-1 mb-1">
+                <div class="col" style="text-align: center; font-size: x-small; width: 100%">
+                    <i>Displaying @totalItems Items</i>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <h3 class="text-muted"><b>@itemType</b></h3>
+                </div>
+            </div>
+
+            <partial name="PartialViews/BaseItems/@partialView" model=@Model>
+        </div>
+    </div>
+</div>
+

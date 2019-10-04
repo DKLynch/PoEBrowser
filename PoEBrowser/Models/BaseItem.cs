@@ -41,6 +41,10 @@ namespace PoEBrowser.Models
         [BsonElement("tags")]
         public string[] Tags { get; set; }
 
+        [BsonIgnoreIfNull]
+        [BsonElement("grants_buff")]
+        public GrantsBuff Buff { get; set; }
+
         [BsonElement("properties")]
         [BsonIgnoreIfNull]
         public Dictionary<string, object> Properties { get; set; }
@@ -56,5 +60,14 @@ namespace PoEBrowser.Models
         public Dictionary<string, object> ExtraValues { get; set; }
 
         public string ImgSrcString { get; set; }
+    }
+
+    public class GrantsBuff
+    {
+        [BsonElement("id")]
+        public string BuffID { get; set; }
+
+        [BsonElement("stats")]
+        public Dictionary<string, int> Stats { get; set; }
     }
 }

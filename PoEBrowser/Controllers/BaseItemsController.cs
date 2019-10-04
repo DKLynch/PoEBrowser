@@ -23,20 +23,27 @@ namespace PoEBrowser.Controllers
         // GET: /BaseItems/
         [Route("")]
         [ActionName("GetBaseItems")]
-        public ActionResult GetBaseItems()
+        public ActionResult GetBaseItems([FromQuery]string q)
         {
-            var model = new List<BaseItem>();
             var query = from b in dB.BaseItems.AsQueryable()
                         where b.ReleaseState != "unreleased" &&
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "StackableCurrency"
-                        orderby b.ItemClass ascending, b.ItemName ascending
                         select b;
 
-            model = query.ToList();
-            model.ForEach(x => SetBaseItemImgSrc(x)); 
-            return View("GetBaseItems", model);
+            var items = query;
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                var searchTerm = q.ToLower();
+                items = items.Where(i => i.ItemName.ToLower().Contains(searchTerm) || i.Tags.Contains(searchTerm));
+            }
+
+            var model = items.ToList();
+            model.ForEach(x => SetBaseItemImgSrc(x));
+            var sorted = model.OrderBy(i => i.ItemClass).ThenBy(i => i.ItemName).ToList();
+            return View("GetBaseItems", sorted);
         }
 
         // GET: /BaseItems/type=Body%20Armour
@@ -49,13 +56,13 @@ namespace PoEBrowser.Controllers
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "StackableCurrency" &&
-                              b.ItemClass == type
+                              b.ItemClass.ToLower() == type.ToLower()
                         orderby b.ItemClass ascending, b.ItemName ascending
                         select b;
 
             model = query.ToList();
             model.ForEach(x => SetBaseItemImgSrc(x));
-            return View("GetBaseItems", model);
+            return View("GetBaseItemsByType", model);
         }
 
         // GET: /BaseItems/Sorcerer%20Boots

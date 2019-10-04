@@ -1,0 +1,74 @@
+﻿@model List<PoEBrowser.Models.BaseItem>
+
+
+<table id="sortableTable" cellpadding="5" cellspacing="5" class="table-striped table-bordered mt-4" style="table-layout: auto;">
+
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-nowrap sorter-false">Item</th>
+            <th class="text-nowrap">Drop Level</th>
+            <th class="text-nowrap">Dex Req.</th>
+            <th class="text-nowrap">Int Req.</th>
+            <th class="text-nowrap">Str Req.</th>
+            <th class="text-nowrap">Attacks Per Second</th>
+            <th class="text-nowrap">Physical Damage</th>
+            <th class="text-nowrap">PDPS</th>
+            <th class="text-nowrap">Critical Strike Chance</th>
+            <th class="text-nowrap sorter-false">Implicit(s)</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            double aps = Math.Round((double)1000 / (int)item.Properties["attack_time"], 2);
+            var minPhys = (int)item.Properties["physical_damage_min"];
+            var maxPhys = (int)item.Properties["physical_damage_max"];
+            var pdps = ((minPhys + maxPhys) / 2) * aps;
+            double critChance = (int)item.Properties["critical_strike_chance"] / 100;
+
+            <tr>
+                <td>
+                    <div class="container">
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <img src="@item.ImgSrcString" />
+                        </div>
+                        <div class="row d-flex align-items-center justify-content-center">
+                            <a asp-action="GetBaseItemByName" asp-route-name="@item.ItemName">@item.ItemName</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @item.DropLevel
+                </td>
+                <td>
+                    @item.Requirements.GetValueOrDefault("dex", 0)
+                </td>
+                <td>
+                    @item.Requirements.GetValueOrDefault("int", 0)
+                </td>
+                <td>
+                    @item.Requirements.GetValueOrDefault("str", 0)
+                </td>
+                <td>
+                    @aps
+                </td>
+                <td>
+                    @(minPhys + " - " + maxPhys)
+                </td>
+                <td>
+                    @pdps
+                </td>
+                <td>
+                    @(critChance + "%")
+                </td>
+                <td>
+                    @foreach (var imp in item.Implicits)
+                    {
+                        <p class="m-0" style="font-size: small">@imp</p>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

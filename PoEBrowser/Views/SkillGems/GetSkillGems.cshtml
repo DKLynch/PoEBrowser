@@ -1,11 +1,18 @@
 ﻿@model PoEBrowser.Models.SkillGems
+@using Microsoft.AspNetCore.Http.Extensions
 
 @{
     ViewData["Title"] = "Skill Gems";
 }
 
-@{ 
-    var gemCounts = new int[] { Model.DexSkillGems.Count(), Model.IntSkillGems.Count(), Model.StrSkillGems.Count(), Model.OtherSkillGems.Count()};
+@{
+
+    // URL Checks
+    var searchAction = (UriHelper.GetDisplayUrl(Context.Request)).Contains("Support") ? "GetSupportSkillGems" : "GetActiveSkillGems";
+    var searchQuery = Context.Request.Query["q"];
+
+    // Fetching Gem Counts from supplied model
+    var gemCounts = new int[] { Model.DexSkillGems.Count(), Model.IntSkillGems.Count(), Model.StrSkillGems.Count(), Model.OtherSkillGems.Count() };
     int maxLength = gemCounts.Max();
     int totalGems = gemCounts.Sum();
 }
@@ -14,6 +21,15 @@
 
     <div class="row mt-1 mb-1">
         <div style="text-align: center; font-size: x-small; width: 100%"><i>Displaying @totalGems Gems</i></div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+        <div class="flex-column ml-auto justify-content-end">
+            <form class="form-inline my-2 my-lg-2">
+                <input class="form-control mr-sm-2 bg-dark" type="text" placeholder="Search" name="q">
+                <button class="btn btn-secondary my-2 my-sm-0" asp-action=@searchAction>Search</button>
+            </form>
+        </div>
     </div>
 
     <div class="row mt-2">
@@ -52,103 +68,103 @@
 
     @for (int i = 0; i < maxLength; i++)
     {
-    <div class="row">
+        <div class="row">
 
-        @if (gemCounts[0] > 0)
-        {
-            <div class="col-md">
-                @if (i < Model.DexSkillGems.Count())
-                {
-                    var gemClickAction = Model.DexSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
-                    var tagClickAction = Model.DexSkillGems[i].IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
+            @if (gemCounts[0] > 0)
+            {
+                <div class="col-md">
+                    @if (i < Model.DexSkillGems.Count())
+                    {
+                        var gemClickAction = Model.DexSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
+                        var tagClickAction = Model.DexSkillGems[i].IsSupport ? "GetSupportSkillGems" : "GetActiveSkillGems";
 
-                    <img src="@Model.DexSkillGems[i].ImgSrcString" height="30" width="30">
-                    <a asp-action="@gemClickAction" asp-route-name="@Model.DexSkillGems[i].GemName">@Model.DexSkillGems[i].GemName</a>
-                    <br />
-                    <p style="font-size: x-small">
-                        Tags:
-                        @{
-                            foreach (var tag in Model.DexSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
-                            {
-                                <a asp-action="@tagClickAction" asp-route-type="@tag">@tag, </a>
+                        <img src="@Model.DexSkillGems[i].ImgSrcString" height="30" width="30">
+                        <a asp-action="@gemClickAction" asp-route-name="@Model.DexSkillGems[i].GemName">@Model.DexSkillGems[i].GemName</a>
+                        <br />
+                        <p style="font-size: x-small">
+                            Tags:
+                            @{
+                                foreach (var tag in Model.DexSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
+                                {
+                                    <a asp-action="@tagClickAction" asp-route-q="@searchQuery" asp-route-tag="@tag">@tag, </a>
+                                }
                             }
-                        }
-                    </p>
-                }
-            </div>
-        }
+                        </p>
+                    }
+                </div>
+            }
 
-        @if (gemCounts[1] > 0)
-        {
-            <div class="col-md">
-                @if (i < Model.IntSkillGems.Count())
-                {
-                    var gemClickAction = Model.IntSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
-                    var tagClickAction = Model.IntSkillGems[i].IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
+            @if (gemCounts[1] > 0)
+            {
+                <div class="col-md">
+                    @if (i < Model.IntSkillGems.Count())
+                    {
+                        var gemClickAction = Model.IntSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
+                        var tagClickAction = Model.IntSkillGems[i].IsSupport ? "GetSupportSkillGems" : "GetActiveSkillGems";
 
-                    <img src="@Model.IntSkillGems[i].ImgSrcString" height="30" width="30">
-                    <a asp-action="@gemClickAction" asp-route-name="@Model.IntSkillGems[i].GemName">@Model.IntSkillGems[i].GemName</a>
-                    <br />
-                    <p style="font-size: x-small">
-                        Tags:
-                        @{
-                            foreach (var tag in Model.IntSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
-                            {
-                                <a asp-action="@tagClickAction" asp-route-type="@tag">@tag, </a>
+                        <img src="@Model.IntSkillGems[i].ImgSrcString" height="30" width="30">
+                        <a asp-action="@gemClickAction" asp-route-name="@Model.IntSkillGems[i].GemName">@Model.IntSkillGems[i].GemName</a>
+                        <br />
+                        <p style="font-size: x-small">
+                            Tags:
+                            @{
+                                foreach (var tag in Model.IntSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
+                                {
+                                    <a asp-action="@tagClickAction" asp-route-q="@searchQuery" asp-route-tag="@tag">@tag, </a>
+                                }
                             }
-                        }
-                    </p>
-                }
-            </div>
-        }
+                        </p>
+                    }
+                </div>
+            }
 
-        @if (gemCounts[2] > 0)
-        {
-            <div class="col-md">
-                @if (i < Model.StrSkillGems.Count())
-                {
-                    var gemClickAction = Model.StrSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
-                    var tagClickAction = Model.StrSkillGems[i].IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
+            @if (gemCounts[2] > 0)
+            {
+                <div class="col-md">
+                    @if (i < Model.StrSkillGems.Count())
+                    {
+                        var gemClickAction = Model.StrSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
+                        var tagClickAction = Model.StrSkillGems[i].IsSupport ? "GetSupportSkillGems" : "GetActiveSkillGems";
 
-                    <img src="@Model.StrSkillGems[i].ImgSrcString" height="30" width="30">
-                    <a asp-action="@gemClickAction" asp-route-name="@Model.StrSkillGems[i].GemName">@Model.StrSkillGems[i].GemName</a>
-                    <br />
-                    <p style="font-size: x-small">
-                        Tags:
-                        @{
-                            foreach (var tag in Model.StrSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
-                            {
-                                <a asp-action="@tagClickAction" asp-route-type="@tag">@tag, </a>
+                        <img src="@Model.StrSkillGems[i].ImgSrcString" height="30" width="30">
+                        <a asp-action="@gemClickAction" asp-route-name="@Model.StrSkillGems[i].GemName">@Model.StrSkillGems[i].GemName</a>
+                        <br />
+                        <p style="font-size: x-small">
+                            Tags:
+                            @{
+                                foreach (var tag in Model.StrSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
+                                {
+                                    <a asp-action="@tagClickAction" asp-route-q="@searchQuery" asp-route-tag="@tag">@tag, </a>
+                                }
                             }
-                        }
-                    </p>
-                }
-            </div>
-        }
+                        </p>
+                    }
+                </div>
+            }
 
-        @if (gemCounts[3] > 0)
-        {
-            <div class="col-md">
-                @if (i < Model.OtherSkillGems.Count())
-                {
-                    var gemClickAction = Model.OtherSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
-                    var tagClickAction = Model.OtherSkillGems[i].IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
+            @if (gemCounts[3] > 0)
+            {
+                <div class="col-md">
+                    @if (i < Model.OtherSkillGems.Count())
+                    {
+                        var gemClickAction = Model.OtherSkillGems[i].IsSupport ? "GetSupportSkillGemByName" : "GetActiveSkillGemByName";
+                        var tagClickAction = Model.OtherSkillGems[i].IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
 
-                    <img src="@Model.OtherSkillGems[i].ImgSrcString" height="30" width="30">
-                    <a asp-action="@gemClickAction" asp-route-name="@Model.OtherSkillGems[i].GemName">@Model.OtherSkillGems[i].GemName</a>
-                    <br />
-                    <p style="font-size: x-small">
-                        Tags:
-                        @{
-                            foreach (var tag in Model.OtherSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
-                            {
-                                <a asp-action="@tagClickAction" asp-route-type="@tag">@tag, </a>
+                        <img src="@Model.OtherSkillGems[i].ImgSrcString" height="30" width="30">
+                        <a asp-action="@gemClickAction" asp-route-name="@Model.OtherSkillGems[i].GemName">@Model.OtherSkillGems[i].GemName</a>
+                        <br />
+                        <p style="font-size: x-small">
+                            Tags:
+                            @{
+                                foreach (var tag in Model.OtherSkillGems[i].Tags.Where(x => x != "active_skill" && x != "support"))
+                                {
+                                    <a asp-action="@tagClickAction" asp-route-type="@tag">@tag, </a>
+                                }
                             }
-                        }
-                    </p>
-                }
-            </div>
-        }
-    </div>
+                        </p>
+                    }
+                </div>
+            }
+        </div>
     }
 </div>
