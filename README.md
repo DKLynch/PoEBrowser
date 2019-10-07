@@ -31,5 +31,5 @@ https://github.com/OmegaK2/PyPoE
 brather1ng for his json data representations at RePoE:
 https://github.com/brather1ng/RePoE
 
-Rob Garrison (Mottie) for tablesorter
+Rob Garrison (Mottie) for jQuery TableSorter:
 https://github.com/Mottie/tablesorter
