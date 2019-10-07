@@ -81,7 +81,7 @@ namespace PoEBrowser.Controllers
                         select b;
 
             var model = query.FirstOrDefault();
-            SetBaseItemImgSrc(model);
+            SetImgSrc(model);
             return View("GetBaseItem", model);
         }
 
