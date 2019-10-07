@@ -21,7 +21,7 @@
         <div class="flex-column ml-auto justify-content-end">
             <form class="form-inline my-2 my-lg-2">
                 <input class="form-control mr-sm-2 bg-dark" type="text" placeholder="Search" name="q">
-                <button class="btn btn-secondary my-2 mr-sm-2" asp-action="GetDivinationCards">Search</button>
+                <button class="btn btn-secondary my-2 mr-2" asp-action="GetDivinationCards">Search</button>
                 <button class="btn btn-secondary my-2" asp-action="GetDivinationCards" asp-route-q="">Clear</button>
             </form>
         </div>
@@ -54,10 +54,13 @@
                           </div>
                       </div>
                       <div class="row mt-0 mb-0">
-                          <div class="col-2">
+                          <div class="col-1">
 
                           </div>
-                          <div class="col-9 ml-3">
+                          <div class="col-1">
+
+                          </div>
+                          <div class="col-9">
                               <p style="font-size: small">@Html.Raw(Model[i].Description)</p>
                           </div>
                       </div>                     
