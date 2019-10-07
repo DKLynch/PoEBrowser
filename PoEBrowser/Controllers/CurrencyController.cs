@@ -26,7 +26,7 @@ namespace PoEBrowser.Controllers
         public ActionResult GetCurrencyItems([FromQuery] string q)
         {
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass == "StackableCurrency" &&
                               !b.ItemName.Contains("Fossil") &&
                               !b.ItemName.Contains("Essence") &&
@@ -66,7 +66,7 @@ namespace PoEBrowser.Controllers
         {
             var model = new CurrencyItem();
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass == "StackableCurrency" &&
                               !b.ItemName.Contains("Fossil") &&
                               !b.ItemName.Contains("Essence") &&

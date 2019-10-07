@@ -27,7 +27,7 @@ namespace PoEBrowser.Controllers
         public ActionResult GetDivinationCards([FromQuery] string q)
         {
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass == "DivinationCard"
                         orderby b.ItemName
                         select new DivinationCard()
@@ -68,7 +68,7 @@ namespace PoEBrowser.Controllers
         {
             var model = new DivinationCard();
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass == "DivinationCard" &&
                               b.ItemName.ToLower() == name.ToLower()
                         orderby b.ItemName

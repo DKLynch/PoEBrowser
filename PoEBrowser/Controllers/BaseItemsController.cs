@@ -26,7 +26,7 @@ namespace PoEBrowser.Controllers
         public ActionResult GetBaseItems([FromQuery]string q)
         {
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "DivinationCard" &&
@@ -53,7 +53,7 @@ namespace PoEBrowser.Controllers
         {
             var model = new List<BaseItem>();
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "StackableCurrency" &&
@@ -72,7 +72,7 @@ namespace PoEBrowser.Controllers
         public ActionResult GetBaseItemByName(string name)
         {
             var query = from b in dB.BaseItems.AsQueryable()
-                        where b.ReleaseState != "unreleased" &&
+                        where b.ReleaseState == "released" &&
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "StackableCurrency" &&
@@ -81,7 +81,7 @@ namespace PoEBrowser.Controllers
                         select b;
 
             var model = query.FirstOrDefault();
-            SetImgSrc(model);
+            SetBaseItemImgSrc(model);
             return View("GetBaseItem", model);
         }
 

@@ -26,7 +26,7 @@ namespace PoEBrowser.Controllers
         public ActionResult GetActiveSkillGemByName(string name)
         {
             var gQuery = from g in dB.SkillGems.AsQueryable()
-                         where g.BaseItem.ReleaseState != "unreleased" &&
+                         where g.BaseItem.ReleaseState == "released" &&
                                g.IsSupport == false &&
                                g.BaseItem.DisplayName == name
                          select g;
@@ -49,7 +49,7 @@ namespace PoEBrowser.Controllers
         {
             var query = from g in dB.SkillGems.AsQueryable()
                         join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
-                        where g.BaseItem.ReleaseState != "unreleased" &&
+                        where g.BaseItem.ReleaseState == "released" &&
                               g.IsSupport == false
                         orderby g.BaseItem.DisplayName
                         select new SkillGem()
@@ -84,7 +84,7 @@ namespace PoEBrowser.Controllers
         {
             var query = from g in dB.SkillGems.AsQueryable()
                         join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
-                        where g.BaseItem.ReleaseState != "unreleased" &&
+                        where g.BaseItem.ReleaseState == "released" &&
                               g.IsSupport == false
                         orderby g.BaseItem.DisplayName
                         select new SkillGem()
@@ -108,7 +108,7 @@ namespace PoEBrowser.Controllers
         {
             var query = from g in dB.SkillGems.AsQueryable()
                         join b in dB.BaseItems.AsQueryable() on g.BaseItem.DisplayName equals b.ItemName
-                        where g.BaseItem.ReleaseState != "unreleased" &&
+                        where g.BaseItem.ReleaseState == "released" &&
                               g.IsSupport == true
                         orderby g.BaseItem.DisplayName
                         select new SkillGem()
@@ -142,7 +142,7 @@ namespace PoEBrowser.Controllers
         public ActionResult GetSupportSkillGemByName(string name)
         {
             var gQuery = from g in dB.SkillGems.AsQueryable()
-                         where g.BaseItem.ReleaseState != "unreleased" &&
+                         where g.BaseItem.ReleaseState == "released" &&
                                g.IsSupport == true &&
                                g.BaseItem.DisplayName == name
                          select g;

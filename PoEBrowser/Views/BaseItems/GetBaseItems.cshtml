@@ -21,7 +21,7 @@
             <form class="form-inline my-2 my-lg-2">
                 <input class="form-control mr-sm-2 bg-dark" type="text" placeholder="Search" name="q">
                 <button class="btn btn-secondary my-2 mr-2" asp-action="GetBaseItems">Search</button>
-                <button class="btn btn-secondary my-2" asp-action="GetBaseItems" asp-route-q="">Clear</button>
+                <button aria-label="Clear" class="btn close my-2" asp-action="GetBaseItems" asp-route-q=""><span aria-hidden="true">&times;</span></button>
             </form>
         </div>
     </div>
@@ -45,8 +45,15 @@
 
             @:<div class="row" style="width: 100%">
                 @:<div class="col-md mt-4">
-                    <a class="text-muted" asp-action="GetBaseItemsByType" asp-route-type="@Model[i].ItemClass" id="@Model[i].ItemClass"><b>@Model[i].ItemClass</b></a>
-                    <hr class="mt-1 mb-1" />
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="text-muted"><b>@Model[i].ItemClass</b></span>
+                            </div>
+                            <div class="col-6 mr-auto text-right">
+                                <a style="font-size: small" asp-action="GetBaseItemsByType" asp-route-type="@Model[i].ItemClass" id="@Model[i].ItemClass">Compare All</a>
+                            </div>
+                        </div>
+                        <hr class="mt-1 mb-1" />
                 @:</div>
             @:</div>
 

@@ -61,7 +61,14 @@
                                         }
                                         else
                                         {
-                                            <p style="font-size: small" class="mb-0"><i>This Essence does not spawn naturally and must be created through upgrading.</i></p>
+                                            if (Model.Level == 7)
+                                            {
+                                                <p style="font-size: small" class="mb-0"><i>This Essence does not spawn naturally and must be created through upgrading.</i></p>
+                                            }
+                                            else
+                                            {
+                                                <p style="font-size: small" class="mb-0"><i>This Essence does not spawn naturally and must be created through upgrading or corruption.</i></p>
+                                            }
                                         }
                                     }
                                     else
