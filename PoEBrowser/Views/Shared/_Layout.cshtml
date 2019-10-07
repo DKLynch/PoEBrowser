@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/css/theme.default.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/css/theme.bootstrap_4.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
 <body>
@@ -32,6 +33,7 @@
                 </li>
                 <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Currency", "Currency")</li>
                 <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Essences", "Essences")</li>
+                <li class="nav-item p-sm-2" style="font-size: small">@Html.RouteLink("Divination Cards", "DivinationCards")</li>
             </ul>
         </div>
     </nav>
@@ -40,7 +42,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - PoEBrowser</p>
+            <p class="text-right">&copy; 2019 - PoEBrowser</p>
         </footer>
     </div>
 

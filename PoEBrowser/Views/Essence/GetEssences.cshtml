@@ -1,7 +1,7 @@
 ﻿@model List<PoEBrowser.Models.Essence>
 
 @{
-    ViewData["Title"] = "GetEssences";
+    ViewData["Title"] = "Essences";
 }
 
 @{
@@ -19,7 +19,8 @@
         <div class="flex-column ml-auto justify-content-end">
             <form class="form-inline my-2 my-lg-2">
                 <input class="form-control mr-sm-2 bg-dark" type="text" placeholder="Search" name="q">
-                <button class="btn btn-secondary my-2 my-sm-0" asp-action="GetEssences">Search</button>
+                <button class="btn btn-secondary my-2 mr-sm-2" asp-action="GetEssences">Search</button>
+                <button class="btn btn-secondary my-2" asp-action="GetEssences" asp-route-q="">Clear</button>
             </form>
         </div>
     </div>
@@ -38,24 +39,24 @@
                 {
                     if (!rowClosed)
                     {
+                        @:</div>
+                        rowClosed = true;
+                    }
+
+                    @:<div class="row" style="width: 100%">
+                        @:<div class="col-md">
+                            <p class="mt-4 mb-1 text-muted"><b>@Model[i].Type</b></p>
+                            <hr class="mt-0 mb-1" />
+                        @:</div>
                     @:</div>
-                    rowClosed = true;
+
+
+                    itemCount = 0;
                 }
 
-                @:<div class="row" style="width: 100%">
-                    @:<div class="col-md">
-                        <p class="mt-4 mb-1 text-muted"><b>@Model[i].Type</b></p>
-                        <hr class="mt-0 mb-1" />
-                    @:</div>
-                @:</div>
-
-
-                itemCount = 0;
-            }
-
-            if (itemCount == 0)
-            {
-                @:<div class="row">
+                if (itemCount == 0)
+                {
+                    @:<div class="row">
                     rowClosed = false;
                 }
 
@@ -65,22 +66,18 @@
                 @:</div>
 
 
-                if (itemCount == 3)
+                if (itemCount == 3 || i == (totalItems - 1))
                 {
                     itemCount = 0;
                     rowClosed = true;
                 @:</div>
-            }
-            else
-            {
-                itemCount++;
-            }
+                }
+                else
+                {
+                    itemCount++;
+                }
 
-            prevItemType = Model[i].Type;
+                prevItemType = Model[i].Type;
+            }
         }
-    }
-    @{
-        // Attempt to alleviate missing start tag errors in IDE due to conditional end tags
-    @:</div>
-@:</div>
-}
+ </div>

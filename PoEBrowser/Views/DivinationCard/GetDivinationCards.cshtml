@@ -1,0 +1,79 @@
+﻿@model List<PoEBrowser.Models.DivinationCard>
+
+@{
+    ViewData["Title"] = "Divination Cards";
+
+    // Divination Card Layout Image
+    var cardPopUpImageSrc = "https://web.poecdn.com/image/item/popup/divination-card.png";
+    var divCardThumb = "https://web.poecdn.com/image/Art/2DItems/Divination/InventoryIcon.png?scale=1";
+
+    // Item Count
+            int totalItems = Model.Count();
+}
+
+<div class="container">
+
+    <div class="row mt-1 mb-1">
+        <div style="text-align: center; font-size: x-small; width: 100%"><i>Displaying @totalItems Items</i></div>
+    </div>
+
+    <div class="row mt-1 mb-1">
+        <div class="flex-column ml-auto justify-content-end">
+            <form class="form-inline my-2 my-lg-2">
+                <input class="form-control mr-sm-2 bg-dark" type="text" placeholder="Search" name="q">
+                <button class="btn btn-secondary my-2 mr-sm-2" asp-action="GetDivinationCards">Search</button>
+                <button class="btn btn-secondary my-2" asp-action="GetDivinationCards" asp-route-q="">Clear</button>
+            </form>
+        </div>
+    </div>
+
+    @{
+        var itemCount = 0;
+    }
+
+    @{
+        @:<div class="container">
+            @for (int i = 0; i < totalItems; i++)
+            {
+
+                if (itemCount == 0)
+                {
+                    @:<div class="row mb-4">
+                }
+
+                @:<div class="col-3 mt-0 pt-0 mb-0">
+                      <div class="row mb-0">
+                          <div class="col-1">
+                              <img style="max-height: 25px; width: auto" src="@divCardThumb" />
+                          </div>
+                          <div class="col-1">
+                              <p class="default pt-1 mb-0" style="font-size: small">@Model[i].StackSize</p>
+                          </div>
+                          <div class="col-9">
+                              <a asp-action="GetDivinationCard" asp-route-name="@Model[i].ItemName" style="font-size: small">@Model[i].ItemName</a>
+                          </div>
+                      </div>
+                      <div class="row mt-0 mb-0">
+                          <div class="col-2">
+
+                          </div>
+                          <div class="col-9 ml-3">
+                              <p style="font-size: small">@Html.Raw(Model[i].Description)</p>
+                          </div>
+                      </div>                     
+                @:</div>
+
+                if (itemCount == 3 || i == (totalItems - 1))
+                {
+                    itemCount = 0;
+                    @:</div>
+                }
+                else
+                {
+                    itemCount++;
+                }
+            }
+    }
+    </div>
+</div>
+        

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using PoEBrowser.Services;
 using PoEBrowser.Models;
 
@@ -13,6 +12,7 @@ namespace PoEBrowser.Controllers
     [Route("BaseItems")]
     public class BaseItemsController : Controller
     {
+        // Constructor + Dependency Injection
         private readonly DBContext dB;
 
         public BaseItemsController(DBContext dBContext)
@@ -29,6 +29,7 @@ namespace PoEBrowser.Controllers
                         where b.ReleaseState != "unreleased" &&
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
+                              b.ItemClass != "DivinationCard" &&
                               b.ItemClass != "StackableCurrency"
                         select b;
 
@@ -41,7 +42,7 @@ namespace PoEBrowser.Controllers
             }
 
             var model = items.ToList();
-            model.ForEach(x => SetBaseItemImgSrc(x));
+            model.ForEach(x => SetImgSrc(x));
             var sorted = model.OrderBy(i => i.ItemClass).ThenBy(i => i.ItemName).ToList();
             return View("GetBaseItems", sorted);
         }
@@ -56,12 +57,13 @@ namespace PoEBrowser.Controllers
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "StackableCurrency" &&
+                              b.ItemClass != "DivinationCard" &&
                               b.ItemClass.ToLower() == type.ToLower()
                         orderby b.ItemClass ascending, b.ItemName ascending
                         select b;
 
             model = query.ToList();
-            model.ForEach(x => SetBaseItemImgSrc(x));
+            model.ForEach(x => SetImgSrc(x));
             return View("GetBaseItemsByType", model);
         }
 
@@ -74,16 +76,17 @@ namespace PoEBrowser.Controllers
                               b.ItemClass != "Active Skill Gem" &&
                               b.ItemClass != "Support Skill Gem" &&
                               b.ItemClass != "StackableCurrency" &&
+                              b.ItemClass != "DivinationCard" &&
                               b.ItemName == name
                         select b;
 
             var model = query.FirstOrDefault();
-            SetBaseItemImgSrc(model);
+            SetImgSrc(model);
             return View("GetBaseItem", model);
         }
 
         // Manipulates the visual identity string in order to generate the required link from the PoE CDN
-        private void SetBaseItemImgSrc(BaseItem baseItem)
+        private void SetImgSrc(BaseItem baseItem)
         {
             var raw = (string)baseItem.VisualIdentity.GetValueOrDefault("dds_file", "");
             baseItem.ImgSrcString = new string("https://web.poecdn.com/image/" + raw.Split('.')[0] + ".png?scale=1");

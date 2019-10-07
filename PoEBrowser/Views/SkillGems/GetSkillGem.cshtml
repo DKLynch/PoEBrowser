@@ -1,7 +1,7 @@
 ﻿@model PoEBrowser.Models.SkillGem
 
 @{
-    ViewData["Title"] = "GetSkillGem";
+    ViewData["Title"] = $"Skill Gems - {Model.GemName}";
 }
 
 @{
@@ -48,7 +48,7 @@
 
 
     // Click Actions
-    var tagClickAction = Model.IsSupport ? "GetSupportSkillGemsByType" : "GetActiveSkillGemsByType";
+    var tagClickAction = Model.IsSupport ? "GetSupportSkillGems" : "GetActiveSkillGems";
 
     // Vaal Values
     var nonVaalCounterpart = (Model.SecondaryEffect != null) ? Model.GemName.Replace("Vaal ", "") : null;
@@ -87,7 +87,7 @@
                 <div class="col-md-12 text-left">
                     @foreach (var tag in Model.Tags.Where(x => x != "active_skill" && x != "support"))
                     {
-                        <a asp-action="@tagClickAction" asp-route-type="@tag" style="font-size: small">@tag, </a>
+                        <a asp-action="@tagClickAction" asp-route-tag="@tag" style="font-size: small">@tag, </a>
                     }
                 </div>
             </div>

@@ -13,6 +13,7 @@ namespace PoEBrowser.Controllers
     [Route("Currency")]
     public class CurrencyController : Controller
     {
+        // Constructor + Dependency Injection
         private readonly DBContext dB;
 
         public CurrencyController(DBContext dBContext)
@@ -22,7 +23,7 @@ namespace PoEBrowser.Controllers
 
         [Route("")]
         [ActionName("GetCurrencyItems")]
-        public ActionResult GetAllCurrencyItems([FromQuery] string q)
+        public ActionResult GetCurrencyItems([FromQuery] string q)
         {
             var query = from b in dB.BaseItems.AsQueryable()
                         where b.ReleaseState != "unreleased" &&
@@ -50,8 +51,8 @@ namespace PoEBrowser.Controllers
 
             model.ForEach(x =>
             {
-                SetCurrencyImgSrc(x);
-                SetCurrencyType(x);
+                SetImgSrc(x);
+                SetType(x);
             });
    
             var grouped = model.OrderBy(x => x.ItemClass).ThenBy(x => x.ItemName).ToList();
@@ -82,22 +83,22 @@ namespace PoEBrowser.Controllers
                         };
 
             model = query.FirstOrDefault();
-            SetCurrencyImgSrc(model);
-            SetCurrencyType(model);
-            GetCurrencyProperties(model);
+            SetImgSrc(model);
+            SetType(model);
+            SetProperties(model);
 
             return View("GetCurrencyItem", model);
         }
 
         // Manipulates the visual identity string in order to generate the required link from the PoE CDN
-        private void SetCurrencyImgSrc(CurrencyItem currency)
+        private void SetImgSrc(CurrencyItem currency)
         {
             var raw = (string)currency.VisualIdentity.GetValueOrDefault("dds_file", "Art/2DItems/Armours/BodyArmours/BodyDex1A.dds");
             currency.ImgSrcString = new string("https://web.poecdn.com/image/" + raw.Split('.')[0] + ".png?scale=1");
         }
 
-        // Slightly messy implementation simply setting currency types depending on the contents of their names
-        private void SetCurrencyType(CurrencyItem currency)
+        // Slightly messy determination of currency type, utilizing name contents
+        private void SetType(CurrencyItem currency)
         {
             if (currency.ItemName.Contains("Bestiary") || currency.ItemName.Contains(" Net") || currency.ItemName.Contains("Imprint"))
             {
@@ -135,7 +136,7 @@ namespace PoEBrowser.Controllers
 
         // Workaround method to set individual item properties after the fact
         // Select statement in the query does not support GetValueOrDefault unfortunately.
-        private void GetCurrencyProperties(CurrencyItem currency)
+        private void SetProperties(CurrencyItem currency)
         {
             currency.Description = (string)currency.Properties.GetValueOrDefault("description", "");
             currency.Directions = (string)currency.Properties.GetValueOrDefault("directions", "");

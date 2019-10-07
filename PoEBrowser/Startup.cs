@@ -60,9 +60,7 @@ namespace PoEBrowser
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            
-
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -80,6 +78,10 @@ namespace PoEBrowser
                 routes.MapRoute(
                     name: "Essences",
                     template: "Essences");
+
+                routes.MapRoute(
+                    name: "DivinationCards",
+                    template: "DivinationCards");
 
                 routes.MapRoute(
                     name: "ActiveSkillGems",

@@ -13,6 +13,7 @@ namespace PoEBrowser.Controllers
     [Route("SkillGems")]
     public class SkillGemsController : Controller
     {
+        // Constructor + Dependency Injection
         private readonly DBContext dB;
 
         public SkillGemsController(DBContext dBContext)
@@ -37,7 +38,7 @@ namespace PoEBrowser.Controllers
             var baseItem = bQuery.FirstOrDefault();
 
             gem.VisualIdentity = baseItem.VisualIdentity;
-            SetSkillGemImgSource(gem);
+            SetImgSrc(gem);
             var model = gem;
             return View("GetSkillGem", model);
         }
@@ -153,7 +154,7 @@ namespace PoEBrowser.Controllers
             var baseItem = bQuery.FirstOrDefault();
 
             gem.VisualIdentity = baseItem.VisualIdentity;
-            SetSkillGemImgSource(gem);
+            SetImgSrc(gem);
             var model = gem;
             return View("GetSkillGem", model);
         }
@@ -165,7 +166,7 @@ namespace PoEBrowser.Controllers
 
             foreach (var gem in skillGems)
             {
-                SetSkillGemImgSource(gem);
+                SetImgSrc(gem);
 
                 if (gem.Tags.Contains("dexterity"))
                 {
@@ -192,7 +193,7 @@ namespace PoEBrowser.Controllers
         }
 
         // Manipulates the visual identity string in order to generate the required link from the PoE CDN
-        private void SetSkillGemImgSource(SkillGem skillGem)
+        private void SetImgSrc(SkillGem skillGem)
         {
             var raw = (string)skillGem.VisualIdentity.GetValueOrDefault("dds_file", "");
             skillGem.ImgSrcString = "https://web.poecdn.com/image/" + raw.Split('.')[0] + ".png?scale=1";

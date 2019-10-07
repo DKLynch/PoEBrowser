@@ -34,7 +34,7 @@
     // Re-manipulate itemType string to accurately display the item class
     itemType = Model[0].ItemClass;
     itemType = (itemType.EndsWith("s")) ? itemType : itemType + "s";
-    ViewData["Title"] = itemType;
+    ViewData["Title"] = $"Base Items - {itemType}";
 
     //Set Item Total
     var totalItems = Model.Count();

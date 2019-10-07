@@ -14,6 +14,7 @@ namespace PoEBrowser.Controllers
     [Route("Essences")]
     public class EssenceController : Controller
     {
+        // Constructor + Dependency Injection
         private readonly DBContext dB;
 
         public EssenceController(DBContext dBContext)
@@ -50,8 +51,8 @@ namespace PoEBrowser.Controllers
 
             model.ForEach(x =>
             {
-                SetEssenceType(x);
-                SetEssenceImgSrc(x);
+                SetType(x);
+                SetImgSrc(x);
             });
 
             var grouped = model.OrderBy(x => x.Type).ThenBy(x => x.Level).ToList();
@@ -81,14 +82,14 @@ namespace PoEBrowser.Controllers
                         };
 
             model = query.FirstOrDefault();
-            SetEssenceType(model);
-            SetEssenceImgSrc(model);
+            SetType(model);
+            SetImgSrc(model);
 
             return View("GetEssence", model);
         }
 
         // Utilizes regex to determine the last word in the name string to classify each essence's type
-        private void SetEssenceType(Essence essence)
+        private void SetType(Essence essence)
         {
             if (essence.IsCorruptionOnly)
             {
@@ -109,7 +110,7 @@ namespace PoEBrowser.Controllers
         }
 
         // Manipulates the visual identity string in order to generate the required link from the PoE CDN
-        private void SetEssenceImgSrc(Essence essence)
+        private void SetImgSrc(Essence essence)
         {
             var raw = (string)essence.VisualIdentity.GetValueOrDefault("dds_file", "");
             essence.ImgSrcString = new string("https://web.poecdn.com/image/" + raw.Split('.')[0] + ".png?scale=1");

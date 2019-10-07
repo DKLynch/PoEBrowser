@@ -1,6 +1,6 @@
 ﻿@model PoEBrowser.Models.BaseItem
 @{
-    ViewData["Title"] = Model.ItemName;
+    ViewData["Title"] = $"Base Items - {Model.ItemName}";
 }
 
 <div class="container-fluid m-sm-3 p-sm-3">
@@ -32,32 +32,58 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="row mb-0 mt-sm-2">
-                                <div class="col-md-12">
-                                    <h6 class="mb-1 text-muted"><b>Implicit(s)</b></h6>
-                                    <hr class="mt-0 mb-2" />
-                                </div>
-                            </div>
 
-                            @if (Model.Implicits.Count() > 0)
+                            @if (Model.ItemClass.Contains("Flask"))
                             {
-                                foreach (var imp in Model.Implicits)
-                                {
-                                    <div class="row mt-0 mb-0">
-                                        <div class="col-md-12">
-                                            <p class="m-0 p-0 text-capitalize" style="font-size: small">@imp</p>
-                                        </div>
+                                <div class="row mb-0 mt-sm-2">
+                                    <div class="col-md-12">
+                                        <h6 class="mb-1 text-muted"><b>Flask Stats</b></h6>
+                                        <hr class="mt-0 mb-2" />
                                     </div>
+                                </div>
+
+                                @if (Model.Buff.Stats.Count > 0)
+                                {
+                                    foreach (var stat in Model.Buff.Stats)
+                                    {
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col-md-12">
+                                                <p class="m-0 p-0 text-capitalize" style="font-size: small">@stat.Key : @stat.Value</p>
+                                            </div>
+                                        </div>
+                                    }
                                 }
                             }
                             else
                             {
-                                <div class="row mt-0 mb-0">
+                                <div class="row mb-0 mt-sm-2">
                                     <div class="col-md-12">
-                                        <p class="m-0 p-0" style="font-size: small"><i>Item has no implicit modifiers.</i></p>
+                                        <h6 class="mb-1 text-muted"><b>Implicit(s)</b></h6>
+                                        <hr class="mt-0 mb-2" />
                                     </div>
                                 </div>
+
+                                @if (Model.Implicits.Count() > 0)
+                                {
+                                    foreach (var imp in Model.Implicits)
+                                    {
+                                        <div class="row mt-0 mb-0">
+                                            <div class="col-md-12">
+                                                <p class="m-0 p-0 text-capitalize" style="font-size: small">@imp</p>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="row mt-0 mb-0">
+                                        <div class="col-md-12">
+                                            <p class="m-0 p-0" style="font-size: small"><i>Item has no implicit modifiers.</i></p>
+                                        </div>
+                                    </div>
+                                }
                             }
+
                         </div>
                     </div>
 

@@ -17,3 +17,48 @@ body {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+/* Divination Card Text Classes */
+.whiteitem {
+    color: #c8c8c8;
+}
+
+.magicitem {
+    color: #8888ff;
+}
+
+.rareitem {
+    color: #ff7;
+}
+
+.uniqueitem{
+    color: #af6025;
+}
+
+.currencyitem {
+    color: #aa9e82;
+}
+
+.gemitem {
+    color: #1ba29b;
+}
+
+.corrupted {
+    color: #d20000;
+}
+
+.prophecy {
+    color: #b54bff;
+}
+
+.divination {
+    color: #aae6e6;
+}
+
+.default {
+    color: #7f7f7f;
+}
+
+.normal {
+    color: #c8c8c8;
+}
