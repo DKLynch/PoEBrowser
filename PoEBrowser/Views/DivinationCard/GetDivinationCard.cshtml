@@ -1,8 +1,62 @@
 ﻿@model PoEBrowser.Models.DivinationCard
 
 @{
-    ViewData["Title"] = "GetDivinationCard";
+    ViewData["Title"] = $"Divination Cards - {Model.ItemName}";
+    var divCardOverlay = "https://web.poecdn.com/image/item/popup/divination-card.png";
+    var treatedDesc = Model.Description.Replace("</br>", "");
 }
 
-<h4 class="text-muted">@Model.ItemName</h4>
+<div class="container-fluid m-sm-3 p-sm-3">
 
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <img class="divCardOverlay" src="@divCardOverlay">
+                    <img class="divCardArtwork" src="@Model.CardArtString">
+
+                    <div class="divCardTitleBlock">
+                        <span class="divCardName">@Model.ItemName</span>
+                    </div>
+
+                    <div class="divCardStackSizeBlock">
+                        <span class="divCardStackSize">1/@Model.StackSize</span>
+                    </div>
+
+                    <div class="divCardDescriptionBlock">
+                        <div class="divCardDescription">@Html.Raw(treatedDesc)</div>
+                    </div>
+
+                    <div class="divCardFlavourBlock">
+                        <div class="divCardFlavourText"><span class="uniqueitem">@Html.Raw(Model.FlavourText)</span></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

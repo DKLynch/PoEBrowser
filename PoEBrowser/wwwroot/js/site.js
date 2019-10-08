@@ -7,3 +7,16 @@ $(document).ready(function () {
         sortList: [[1, 0]]
     });
 });
+
+
+// Overflow check for divination card flavour text
+$('.divCardFlavourText').each(function(){
+    var el = $(this);
+
+    if (el.height() > 150) {
+        el.css('font-size', '8pt');
+    }
+    else if (el.height() > 120) {
+        el.css('font-size', '10pt');
+    }
+});

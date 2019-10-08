@@ -9,6 +9,7 @@ namespace PoEBrowser.Models
     {
         public string ItemName { get; set; }
         public string Description { get; set; }
+        public string FlavourText { get; set; }
         public int DropLevel { get; set; }
         public int StackSize { get; set; }
         public int CurrencyTabStackSize { get; set; }

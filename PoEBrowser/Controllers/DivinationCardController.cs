@@ -104,34 +104,41 @@ namespace PoEBrowser.Controllers
             divCard.Description = (string)divCard.Properties.GetValueOrDefault("description", "");
             divCard.StackSize = (int)divCard.Properties.GetValueOrDefault("stack_size", 0);
             divCard.CurrencyTabStackSize = (int)divCard.Properties.GetValueOrDefault("stack_size_currency_tab", 0);
+            divCard.FlavourText = (string)divCard.Properties.GetValueOrDefault("flavour_text", "");
         }
 
         // Alters the raw description data to use respective HTML tags and formatting.
         // Uses RegEx to pair formatting tags and their content to be rendered
-        private void FormatDescriptionForHTML(DivinationCard divinationCard)
-        {
+        private void FormatDescriptionForHTML(DivinationCard divCard)
+        {   
+            // Matches any <*> followed by {*} and captures the contents of both as capture groups
             string pattern = @"<([a-zA-Z]*)>{([a-zA-Z0-9ö \t+%:'.,-]*)}";
             Regex rgx = new Regex(pattern);
-            var matchList = rgx.Matches(divinationCard.Description).ToList();
+            var matchList = rgx.Matches(divCard.Description).ToList();
 
-            foreach (Match match in rgx.Matches(divinationCard.Description))
+            bool openSpanTag = false;
+            foreach (Match match in rgx.Matches(divCard.Description))
             {
-                // Add KeyValue pair for each match group ie. "<rareitem>{Body Armour}" - "rareitem", "Body Armour"
                 var wholeMatch = match.Groups[0].ToString();
                 var cssClass = match.Groups[1].ToString();
                 var content = match.Groups[2].ToString();
 
                 // If we have a situation like "Item Level:", we don't want to break into a new line until after the
                 // post colon data is displayed.
-                if (wholeMatch.Contains(":"))
-                {
+                var containsColon = wholeMatch.Contains(":");
 
-                    divinationCard.Description = divinationCard.Description.Replace($"<{cssClass}>{{{content}}}", $"<span class=\"{cssClass}\">{content}</span>");
-                }
-                else
-                {
-                    divinationCard.Description = divinationCard.Description.Replace($"<{cssClass}>{{{content}}}", $"<span class=\"{cssClass}\">{content}</span><br>");
-                }
+                var baseString = containsColon ? $"<span class=\"lineContainer\"><span class=\"{cssClass}\">{content}</span>" : $"<span class=\"{cssClass}\">{content}</span>";
+
+                var treatedString = openSpanTag ? $"{baseString}</span>" : baseString;
+                if (openSpanTag)
+                    openSpanTag = false;
+
+                //var replacement = containsColon ? treatedString : $"{treatedString}</br>";
+                divCard.Description = divCard.Description.Replace($"<{cssClass}>{{{content}}}", treatedString);
+
+                if (containsColon)
+                    openSpanTag = true;
+
             }
         }
     }
