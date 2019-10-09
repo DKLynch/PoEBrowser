@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using MongoDB.Bson;
 using PoEBrowser.Services;
 using PoEBrowser.Models;
 
@@ -105,6 +106,13 @@ namespace PoEBrowser.Controllers
             divCard.StackSize = (int)divCard.Properties.GetValueOrDefault("stack_size", 0);
             divCard.CurrencyTabStackSize = (int)divCard.Properties.GetValueOrDefault("stack_size_currency_tab", 0);
             divCard.FlavourText = (string)divCard.Properties.GetValueOrDefault("flavour_text", "");
+
+            divCard.Properties.ToBsonDocument().TryGetElement("areas_found", out BsonElement areasFound);
+            if(areasFound.Value != null)
+            {
+                var areas = areasFound.Value.AsBsonArray;
+                divCard.DropAreas = areas.Select(x => x.ToString()).ToArray();
+            }
         }
 
         // Alters the raw description data to use respective HTML tags and formatting.

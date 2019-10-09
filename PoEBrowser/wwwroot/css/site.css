@@ -17,6 +17,27 @@ body {
     margin: 0;
 }
 
+/* Home Page Elements */
+
+.homepanel {
+    background-color: #212121;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,.25);
+}
+
+.homepanelheader {
+    background-color: #252525;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,.25);
+}
+
+.ytcontainer {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,.45);
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {

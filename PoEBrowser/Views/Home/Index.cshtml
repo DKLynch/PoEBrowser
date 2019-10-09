@@ -1,3 +1,196 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+
+    var baseItemTypes = new List<string>(){ "AbyssJewel", "Amulet", "Belt", "Body Armour", "Boots", "Bow", "Claw", "Dagger", "Gloves", "Helmet", "LifeFlask", "ManaFlask",
+                                            "One Hand Axe", "One Hand Mace", "One Hand Sword", "Quiver", "Ring", "Rune Dagger", "Sceptre", "Shield", "Staff", "Thrusting One Hand Sword",
+                                            "Two Hand Axe", "Two Hand Mace", "Two Hand Sword", "UtilityFlask", "Warstaff" };
+
 }
+
+<div class="container">
+
+    <div class="row mt-5">
+        <div class="col-11 ml-3">
+            <div class="row homepanelheader">
+                <div class="col-md-12 d-flex justify-content-center">
+                    <h6 class="text-muted pt-1"><b>Latest League: Blight</b></h6>
+                </div>
+            </div>
+
+            <div class="row homepanel">
+                <div class="col-md-12 my-3 d-flex justify-content-center">
+                    <iframe class="ytcontainer m-0" width="691" height="388" src="https://www.youtube.com/embed/SzkWGiW-usQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>      
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-6 ml-3">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row homepanelheader">
+                        <div class="col-md-6">
+                            <h6 class="text-muted pt-1"><b>Base Items By Class</b></h6>
+                        </div>
+                        <div class="col-6 mr-auto text-right">
+                            <a style="font-size: small" href="/BaseItems">View All</a>
+                        </div>
+                    </div>
+
+                    <div class="row homepanel pb-3">
+                        <div class="col-md-12">
+                            @for (int i = 0; i < baseItemTypes.Count(); i += 3)
+                            {
+                                <div class="row">
+                                    @if (i < baseItemTypes.Count())
+                                    {
+                                        if (baseItemTypes[i] != null)
+                                        {
+                                            <div class="col-md-4">
+                                                <a style="font-size: small" href="/BaseItems/type=@baseItemTypes[i]">@baseItemTypes[i]</a>
+                                            </div>
+                                        }
+                                    }
+
+                                    @if (i < baseItemTypes.Count())
+                                    {
+                                        if (baseItemTypes[i + 1] != null)
+                                        {
+                                            <div class="col-md-4">
+                                                <a style="font-size: small" href="/BaseItems/type=@baseItemTypes[i + 1]">@baseItemTypes[i + 1]</a>
+                                            </div>
+                                        }
+                                    }
+
+                                    @if (i < baseItemTypes.Count())
+                                    {
+                                        if (baseItemTypes[i + 2] != null)
+                                        {
+                                            <div class="col-md-4">
+                                                <a style="font-size: small" href="/BaseItems/type=@baseItemTypes[i + 2]">@baseItemTypes[i + 2]</a>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row homepanelheader mt-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted pt-1"><b>Skill Gems</b></h6>
+                        </div>
+                    </div>
+
+                    <div class="row homepanel pb-3">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a style="font-size: small" href="/SkillGems/Active">Active</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a style="font-size: small" href="/SkillGems/Support">Support</a>
+                                </div>
+                            </div>                         
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2 ml-5">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row homepanelheader">
+                        <div class="col-md-12">
+                            <h6 class="text-muted pt-1"><b>Features Planned</b></h6>
+                        </div>
+                    </div>
+
+                    <div class="row homepanel">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-unstyled text-muted" style="font-size: small">
+                                        <li>- Essence Mod Translations</li>
+                                        <li>- Blight Oil Anointments</li>
+                                        <li>- DB Access API</li>
+                                        <li>- Ascendancy Node Data</li>
+                                        <li>- Unique Item Data</li>
+                                        <li>- Misc League Data</li>
+                                        <li>- League Mechanics</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-2 ml-5">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row homepanelheader">
+                        <div class="col-md-12">
+                            <h6 class="text-muted pt-1"><b>Useful External Links</b></h6>
+                        </div>
+                    </div>
+
+                    <div class="row homepanel">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-unstyled">
+                                        <li><a style="font-size: small" href="https://www.pathofexile.com">Official PoE Site</a></li>
+                                        <li><a style="font-size: small" href="https://www.pathofexile.com/trade">Official Trade Site</a></li>
+                                        <li><a style="font-size: small" href="https://pathofexile.gamepedia.com/Path_of_Exile_Wiki">PoE Wiki</a></li>
+                                        <li><a style="font-size: small" href="http://poedb.tw/us/">PoEDB</a></li>
+                                        <li><a style="font-size: small" href="https://poe.ninja/">PoE Ninja</a></li>
+                                        <li><a style="font-size: small" href="https://poe.ninja/challenge/builds">PoE Ninja - Builds</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row homepanelheader mt-4">
+                        <div class="col-md-12">
+                            <h6 class="text-muted pt-1"><b>Useful External Resources</b></h6>
+                        </div>
+                    </div>
+
+                    <div class="row homepanel">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-unstyled">
+                                        <li><a style="font-size: small" href="https://github.com/NeverSinkDev/NeverSink-Filter/releases">Neversink's Item Filter</a></li>
+                                        <li><a style="font-size: small" href="https://www.filterblade.xyz/">FilterBlade</a></li>
+                                        <li><a style="font-size: small" href="https://github.com/Openarl/PathOfBuilding/releases">Path Of Building</a></li>
+                                        <li><a style="font-size: small" href="https://poeplanner.com/">PoE Planner</a></li>
+                                        <li><a style="font-size: small" href="https://github.com/PoESkillTree/PoESkillTree/releases">PoE Skill Tree</a></li>
+                                        <li><a style="font-size: small" href="https://github.com/PoE-TradeMacro/POE-TradeMacro/releases">PoE Trade Macro</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

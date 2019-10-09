@@ -39,11 +39,41 @@
 
         <div class="col-md-8">
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-md-12">
-
+                    <h6 class="mb-1 text-muted"><b>Drop Level</b></h6>
+                    <hr class="mt-0 mb-2" />
                 </div>
             </div>
+
+            <div class="row mb-0">
+                <div class="col-md-12">
+                    <span style="display: block">@Model.DropLevel</span>
+                </div>
+            </div>
+
+            @if (Model.DropAreas != null)
+            {
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h6 class="mb-1 text-muted"><b>Areas Found</b></h6>
+                        <hr class="mt-0 mb-2" />
+                    </div>
+                </div>
+
+                <div class="row mb-0">
+                    <div class="col-md-12">
+                        <ul class="list-unstyled">
+                            @foreach (var area in Model.DropAreas)
+                            {
+                                <li>@area</li>
+                            }
+                        </ul>
+                       
+                    </div>
+                </div>
+            }
+
 
             <div class="row">
                 <div class="col-md-12">

@@ -11,6 +11,7 @@ namespace PoEBrowser.Models
         public string Description { get; set; }
         public string FlavourText { get; set; }
         public int DropLevel { get; set; }
+        public string[] DropAreas { get; set; }
         public int StackSize { get; set; }
         public int CurrencyTabStackSize { get; set; }
         public Dictionary<string, object> VisualIdentity { get; set; }
