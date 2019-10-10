@@ -2,6 +2,8 @@
 PoEBrowser is a small .NET Core web application that displays data about various different elements from Grinding Gear Games' Path of Exile.
 PoEBrowser is currently hosted at: https://poebrowser.azurewebsites.net/
 
+Note: Due to hosting for free (both on Azure and Atlas), first requests to the site or database may take a little longer as the instances spin up from inactivity. Subsequent requests should have a much lower overhead.
+
 # Current Functionality
 *This application is an ongoing project*
 
