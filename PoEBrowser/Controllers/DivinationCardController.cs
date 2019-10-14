@@ -108,10 +108,12 @@ namespace PoEBrowser.Controllers
             divCard.StackSize = (int)divCard.Properties.GetValueOrDefault("stack_size", 0);
             divCard.CurrencyTabStackSize = (int)divCard.Properties.GetValueOrDefault("stack_size_currency_tab", 0);
             divCard.FlavourText = (string)divCard.Properties.GetValueOrDefault("flavour_text", "");
-
+            
+            // Grab the areas_found element
             divCard.Properties.ToBsonDocument().TryGetElement("areas_found", out BsonElement areasFound);
             if(areasFound.Value != null)
             {
+                // Convert areas_found to BsonArray and select into a normal array
                 var areas = areasFound.Value.AsBsonArray;
                 divCard.DropAreas = areas.Select(x => x.ToString()).ToArray();
             }
