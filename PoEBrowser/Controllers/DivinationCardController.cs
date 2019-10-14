@@ -41,7 +41,8 @@ namespace PoEBrowser.Controllers
                         };
 
             var items = query.ToList();
-
+            
+            // Filter our collection if a query parameter is passed in the URL
             if (!string.IsNullOrEmpty(q))
             {
                 var searchTerm = q.ToLower();
@@ -52,7 +53,8 @@ namespace PoEBrowser.Controllers
                                     i.Properties.GetValueOrDefault("description", "").ToString().ToLower().Contains(searchTerm))
                                     .ToList();
             }
-
+            
+            // 
             items.ForEach(x => {
                 SetProperties(x);
                 SetImgSrc(x);
@@ -116,10 +118,10 @@ namespace PoEBrowser.Controllers
         }
 
         // Alters the raw description data to use respective HTML tags and formatting.
-        // Uses RegEx to pair formatting tags and their content to be rendered
+        // Uses RegEx to pair formatting tags and their content to be rendered.
         private void FormatDescriptionForHTML(DivinationCard divCard)
         {   
-            // Matches any <*> followed by {*} and captures the contents of both as capture groups
+            // Matches any <*> followed by {*} and captures the contents of both as capture groups.
             string pattern = @"<([a-zA-Z]*)>{([a-zA-Z0-9ö \t+%:'.,-]*)}";
             Regex rgx = new Regex(pattern);
             var matchList = rgx.Matches(divCard.Description).ToList();
@@ -131,17 +133,19 @@ namespace PoEBrowser.Controllers
                 var cssClass = match.Groups[1].ToString();
                 var content = match.Groups[2].ToString();
 
-                // If we have a situation like "Item Level:", we don't want to break into a new line until after the
+                // If we have a situation like "Item Level:", we don't want to break into a new line until after the.
                 // post colon data is displayed.
                 var containsColon = wholeMatch.Contains(":");
-
+                
+                // If the base string contains a colon, we add the lineContainer wrapper tag.
                 var baseString = containsColon ? $"<span class=\"lineContainer\"><span class=\"{cssClass}\">{content}</span>" : $"<span class=\"{cssClass}\">{content}</span>";
-
+                
+                // If there's an unclosed lineContainer tag, we close it.
                 var treatedString = openSpanTag ? $"{baseString}</span>" : baseString;
                 if (openSpanTag)
                     openSpanTag = false;
-
-                //var replacement = containsColon ? treatedString : $"{treatedString}</br>";
+                
+                // Replace the original regex match with our treated string with html tags.
                 divCard.Description = divCard.Description.Replace($"<{cssClass}>{{{content}}}", treatedString);
 
                 if (containsColon)
