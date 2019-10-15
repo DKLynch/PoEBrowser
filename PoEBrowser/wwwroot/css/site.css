@@ -236,3 +236,12 @@ body {
     padding: 10px;
 }
 
+.popover-body{
+    padding: 0 0.75rem;
+    border: none;
+}
+
+.popover {
+    background-color: transparent;
+    border: none;
+}

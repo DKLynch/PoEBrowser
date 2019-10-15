@@ -3,12 +3,12 @@
 @{
     ViewData["Title"] = "Divination Cards";
 
-    // Divination Card Layout Image
-    var cardPopUpImageSrc = "https://web.poecdn.com/image/item/popup/divination-card.png";
+    // Divination Card Images
+    var divCardOverlay = "https://web.poecdn.com/image/item/popup/divination-card.png";
     var divCardThumb = "https://web.poecdn.com/image/Art/2DItems/Divination/InventoryIcon.png?scale=1";
 
     // Item Count
-            int totalItems = Model.Count();
+    int totalItems = Model.Count();
 }
 
 <div class="container">
@@ -35,6 +35,31 @@
         @:<div class="container">
             @for (int i = 0; i < totalItems; i++)
             {
+                var treatedDesc = Model[i].Description.Replace("</br>", "");
+                var id = "popoverCard" + i.ToString();
+                <!-- Content for card popover -->
+                <div class="d-none">
+                    <div class="col-md-12" id="@id">
+                        <img class="divCardOverlay" src="@divCardOverlay">
+                        <img class="divCardArtwork" src="@Model[i].CardArtString">
+
+                        <div class="divCardTitleBlock">
+                            <span class="divCardName">@Model[i].ItemName</span>
+                        </div>
+
+                        <div class="divCardStackSizeBlock">
+                            <span class="divCardStackSize">1/@Model[i].StackSize</span>
+                        </div>
+
+                        <div class="divCardDescriptionBlock">
+                            <div class="divCardDescription">@Html.Raw(treatedDesc)</div>
+                        </div>
+
+                        <div class="divCardFlavourBlock">
+                            <div class="divCardFlavourText"><span class="uniqueitem">@Html.Raw(Model[i].FlavourText)</span></div>
+                        </div>
+                    </div>                 
+                </div>
 
                 if (itemCount == 0)
                 {
@@ -44,7 +69,7 @@
                 @:<div class="col-3 mt-0 pt-0 mb-0">
                       <div class="row mb-0">
                           <div class="col-1">
-                              <img style="max-height: 25px; width: auto" src="@divCardThumb" />
+                              <img style="max-height: 25px; width: auto" src="@divCardThumb" data-toggle="popover" data-popover-content="#@id" />
                           </div>
                           <div class="col-1">
                               <p class="default pt-1 mb-0" style="font-size: small">@Model[i].StackSize</p>
