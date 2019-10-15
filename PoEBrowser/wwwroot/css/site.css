@@ -127,6 +127,7 @@ body {
     left: 35px;
     width: 270px;
     z-index: 0;
+    background-color: #1e1e1e;
 }
 
 .divCardTitleBlock {
